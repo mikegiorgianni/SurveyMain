@@ -1,0 +1,42 @@
+    private static final int QUESTIONS_PER_SURVEY = 6;
+    String[] surveyNames = {"xyz", "wxy", "vwx", "uvw", "tuv", "stu", "rst", "qrs", "pqr"};
+
+    for ( String name : surveyNames ) insertSurvey(name);
+        save("surveys", surveys);
+        surveys = ( SurveyList ) load("surveys");
+        System.out.println("Surveys: " + surveys);
+        System.out.println();
+        for ( String name: surveyNames ) {    // for each survey, add 3 questions, save it, load it, print it
+            Survey survey = new Survey(name);
+            int i = rand.nextInt(QUESTIONS_PER_SURVEY);     // which question to start with
+            create3QuestionsInRandomOrder(survey, i);
+            save(name, survey);                     // save the survey
+            Survey newWord = ( Survey ) load(name); // load the survey
+            System.out.println(newWord);            // print the survey
+        }
+    }
+
+    private void create3QuestionsInRandomOrder( Survey survey, int i ) {
+        // loop 3 time, 1 question each iteration
+        for ( int j = 0; j < 3; j++ ) {
+            if ( i % QUESTIONS_PER_SURVEY == 0 )
+                survey.addQuestion(new questionTypes.TrueFalse("2 + 2 = 4", true));
+            if ( i % QUESTIONS_PER_SURVEY == 1 )
+                survey.addQuestion(new questionTypes.ShortAnswer("Sky blue?", "On a clear day."));
+            if ( i % QUESTIONS_PER_SURVEY == 2 ) survey.addQuestion(new questionTypes.Essay("Your goal",
+                "My first goal is to live a long, healthy life."));
+            if ( i % QUESTIONS_PER_SURVEY == 3 )
+                survey.addQuestion(new questionTypes.ValidDate("When did Texas declare its independence from Mexico?",
+                    LocalDate.of(1836, 3, 2)));
+            if ( i % QUESTIONS_PER_SURVEY == 4 )
+                survey.addQuestion(new questionTypes.MultipleChoice("Where did Texas win it's independence?",
+                    3, 2, List.of("Alamo", "Goliad", "San Jacinto")));
+            if ( i % QUESTIONS_PER_SURVEY == 5 ) {
+                List<String> listA = List.of("Sam Houston", "William B. Travis", "James Fannin");
+                List<String> listB = List.of("Alamo", "Goliad", "San Jacinto");
+                Map<String, String> matches = Map.of("1", "C", "2", "A", "3", "B");
+                survey.addQuestion(new questionTypes.Matching("Match the commander to the Texas battle:",
+                    listA.size(), listB.size(), listA, listB, matches));
+            }
+            i++;
+        }
