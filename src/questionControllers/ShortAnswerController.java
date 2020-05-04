@@ -6,7 +6,7 @@ import questionTypes.ShortAnswer;
 public class ShortAnswerController implements QuestionOps<ShortAnswer> {
     @Override
     public ShortAnswer inputQuestion() {
-        return null;
+        return new ShortAnswer("Am I there?", "Don't know.");
     }
 
     @Override
