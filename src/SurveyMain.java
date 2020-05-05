@@ -24,7 +24,7 @@ public class SurveyMain {
                 case '6': modifySurvey();break;
                 case '7': quit();break;
                 default:
-                    System.out.println("Invalid response");
+                System.out.println("Invalid response");
             }
         }
     }
@@ -32,6 +32,51 @@ public class SurveyMain {
     private void quit() {
         save(SURVEYS_FN, surveys);
         System.exit(0);
+    }
+
+    private void prevMenu() {
+        save(SURVEYS_FN, surveys);
+        displaySurveyMenu();
+    }
+
+    private createSurvey() {
+        kb = new Scanner(System.in);
+        int num = kb.nextLine();
+        System.out.println("The option you have chosen is: " + num + "\n");
+        while(true) {
+            char opt = displayQuestionMenu();
+            switch (opt) {
+                case '1'
+                    TrueFalse(); break;
+                case '2':
+                    MultipleChoice() break;
+                case '3':
+                    ShortAnswer();break;
+                case '4':
+                    Essay();break;
+                case '5':
+                    ValidDate();break;
+                case '6':
+                    Matching();break;
+                case '7':
+                    prevMenu();break;
+                default:
+                    System.out.println("Invalid response");
+            }
+    }
+
+
+
+    private char displayQuestionMenu() {
+        System.out.println("\n" +
+        "1) Add a new T/F question\n" +
+        "2) Add a new multiple choice question\n" +
+        "3) Add a new short answer question\n" +
+        "4) Add a new essay question\n" +
+        "5) Add a new date question\n" +
+        "6) Add a new matching question\n" +
+        "7) Return to previous menu"););
+        return kb.nextLine().charAt(0)
     }
 
     private char displaySurveyMenu() {
