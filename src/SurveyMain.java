@@ -7,10 +7,13 @@ public class SurveyMain {
     private Scanner kb;
     private SurveyList surveys;
     private Random rand = new Random(System.currentTimeMillis());
+    private List<QuestionOps> controllers;
 
 
     private void go() {
         kb = new Scanner(System.in);
+        controllers = new ArrayList();
+        controllers.add()
         surveys = ( SurveyList ) load(SURVEYS_FN);
         System.out.println(surveys);
         while(true) {
@@ -39,7 +42,7 @@ public class SurveyMain {
         displaySurveyMenu();
     }
 
-    private createSurvey() {
+    private void createSurvey() {
         kb = new Scanner(System.in);
         int num = kb.nextLine();
         System.out.println("The option you have chosen is: " + num + "\n");
@@ -49,17 +52,17 @@ public class SurveyMain {
                 case '1'
                     TrueFalse(); break;
                 case '2':
-                    MultipleChoice() break;
+                    MultipleChoice(); break;
                 case '3':
-                    ShortAnswer();break;
+                    ShortAnswer(); break;
                 case '4':
-                    Essay();break;
+                    Essay(); break;
                 case '5':
-                    ValidDate();break;
+                    ValidDate(); break;
                 case '6':
-                    Matching();break;
+                    Matching(); break;
                 case '7':
-                    prevMenu();break;
+                    prevMenu(); break;
                 default:
                     System.out.println("Invalid response");
             }
