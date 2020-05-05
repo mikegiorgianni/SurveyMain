@@ -16,6 +16,10 @@ public class ValidDate extends Question implements Serializable {
         return answer;
     }
 
+    public void setAnswer( LocalDate answer ) {
+        this.answer = answer;
+    }
+
     @Override
     public String toString() {
         return "questionTypes.ValidDate: " + super.getQuestion() + " : " +

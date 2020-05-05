@@ -1,22 +1,22 @@
 package questionControllers;
 
+import questionTypes.Essay;
 import questionTypes.QuestionOps;
-import questionTypes.ShortAnswer;
 
 import java.util.Scanner;
 
-public class ShortAnswerController implements QuestionOps<ShortAnswer> {
+public class EssayController implements QuestionOps<Essay> {
     private final Scanner kb = new Scanner(System.in);
 
     @Override
-    public ShortAnswer inputQuestion() {
+    public Essay inputQuestion() {
         String question = promptAccept("Enter question: ");
         String answer = promptAccept("Enter answer: ");
-        return new ShortAnswer(question, answer);
+        return new Essay(question, answer);
     }
 
     @Override
-    public void changeQuestion( ShortAnswer question ) {
+    public void changeQuestion( Essay question ) {
         System.out.println("Press to retain current value.");
         String resp = promptAccept(question.getQuestion() + ": ");
         if (!resp.isEmpty()) question.setQuestion(resp);
@@ -25,7 +25,7 @@ public class ShortAnswerController implements QuestionOps<ShortAnswer> {
     }
 
     @Override
-    public String askQuestion( ShortAnswer question ) {
+    public String askQuestion( Essay question ) {
         return promptAccept(question.getQuestion()+"\n");
     }
 
@@ -34,5 +34,4 @@ public class ShortAnswerController implements QuestionOps<ShortAnswer> {
         System.out.print(prompt);
         return kb.nextLine();
     }
-
 }

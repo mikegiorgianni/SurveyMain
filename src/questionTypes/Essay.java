@@ -3,7 +3,7 @@ package questionTypes;
 import java.io.Serializable;
 
 public class Essay extends Question implements Serializable {
-    private final String answer;
+    private String answer;
 
     public Essay( String question, String answer ) {
         super(question);
@@ -11,6 +11,10 @@ public class Essay extends Question implements Serializable {
     }
 
     public String getAnswer() { return answer; }
+
+    public void setAnswer( String answer ) {
+        this.answer = answer;
+    }
 
     @Override
     public String toString() {
