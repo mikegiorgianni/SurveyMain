@@ -1,7 +1,6 @@
 package questionControllers;
 
 import questionTypes.Essay;
-import questionTypes.QuestionOps;
 
 import java.util.Scanner;
 

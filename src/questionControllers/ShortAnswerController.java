@@ -1,6 +1,5 @@
 package questionControllers;
 
-import questionTypes.QuestionOps;
 import questionTypes.ShortAnswer;
 
 import java.util.Scanner;

@@ -1,4 +1,4 @@
-package questionTypes;
+package questionControllers;
 
 public interface QuestionOps<T> {
     T inputQuestion();

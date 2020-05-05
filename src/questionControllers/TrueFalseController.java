@@ -1,6 +1,5 @@
 package questionControllers;
 
-import questionTypes.QuestionOps;
 import questionTypes.TrueFalse;
 
 import java.util.Scanner;
