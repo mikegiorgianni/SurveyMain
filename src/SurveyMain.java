@@ -1,6 +1,14 @@
+import questionControllers.*;
+import questionTypes.QuestionType;
+import questionTypes.TrueFalse;
+
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+
+import static questionTypes.QuestionType.TRUE_FALSE;
 
 public class SurveyMain {
     public static final String SURVEYS_FN = "surveys";
@@ -8,12 +16,19 @@ public class SurveyMain {
     private SurveyList surveys;
     private Random rand = new Random(System.currentTimeMillis());
     private List<QuestionOps> controllers;
+    private Survey survey;
 
 
     private void go() {
         kb = new Scanner(System.in);
-        controllers = new ArrayList();
-        controllers.add()
+        surveys = new SurveyList();
+        controllers = new ArrayList<>();
+        controllers.add(new TrueFalseController());
+        controllers.add(new ShortAnswerController());
+        controllers.add(new EssayController());
+        controllers.add(new ValidDateController());
+        controllers.add(new MultipleChoiceController());
+        controllers.add(new MatchingController());
         surveys = ( SurveyList ) load(SURVEYS_FN);
         System.out.println(surveys);
         while(true) {
@@ -32,6 +47,21 @@ public class SurveyMain {
         }
     }
 
+    private void displaySurvey() {
+    }
+
+    private void loadSurvey() {
+    }
+
+    private void saveSurvey() {
+    }
+
+    private void takeSurvey() {
+    }
+
+    private void modifySurvey() {
+    }
+
     private void quit() {
         save(SURVEYS_FN, surveys);
         System.exit(0);
@@ -43,32 +73,57 @@ public class SurveyMain {
     }
 
     private void createSurvey() {
-        kb = new Scanner(System.in);
-        int num = kb.nextLine();
-        System.out.println("The option you have chosen is: " + num + "\n");
+        String surveyName = promptAccept("Enter survey name: ");
+        survey = new Survey(surveyName);
         while(true) {
             char opt = displayQuestionMenu();
             switch (opt) {
-                case '1'
-                    TrueFalse(); break;
+                case '1':
+                    trueFalse();
+                    break;
                 case '2':
-                    MultipleChoice(); break;
+                    multipleChoice();
+                    break;
                 case '3':
-                    ShortAnswer(); break;
+                    shortAnswer();
+                    break;
                 case '4':
-                    Essay(); break;
+                    essay();
+                    break;
                 case '5':
-                    ValidDate(); break;
+                    validDate();
+                    break;
                 case '6':
-                    Matching(); break;
+                    matching();
+                    break;
                 case '7':
-                    prevMenu(); break;
+                    prevMenu();
+                    break;
                 default:
                     System.out.println("Invalid response");
             }
+        }
     }
 
+    private void multipleChoice() {
+    }
 
+    private void shortAnswer() {
+    }
+
+    private void essay() {
+    }
+
+    private void validDate() {
+    }
+
+    private void matching() {
+    }
+
+    private void trueFalse() {
+            TrueFalse tfQuestion = (TrueFalse) controllers.get(TRUE_FALSE.ordinal()).inputQuestion();
+            survey.addQuestion(tfQuestion);
+        }
 
     private char displayQuestionMenu() {
         System.out.println("\n" +
@@ -78,8 +133,8 @@ public class SurveyMain {
         "4) Add a new essay question\n" +
         "5) Add a new date question\n" +
         "6) Add a new matching question\n" +
-        "7) Return to previous menu"););
-        return kb.nextLine().charAt(0)
+        "7) Return to previous menu");
+        return kb.nextLine().charAt(0);
     }
 
     private char displaySurveyMenu() {
@@ -98,6 +153,20 @@ public class SurveyMain {
         System.out.print(prompt);
         return kb.nextLine();
     }
+
+    private int promptNumber( String prompt, int no) {
+        String resp;
+        while (true) {
+            resp = promptAccept(prompt);
+            if (resp.isEmpty()) return no;
+            try {
+                return Integer.parseInt(resp);
+            } catch (NumberFormatException e) {
+                System.out.println("Not a number.");
+            }
+        }
+    }
+
     private void insertSurvey(String survey) { surveys.addSurvey(survey); }
 
     private void save(String fileName, Object surveys) {
