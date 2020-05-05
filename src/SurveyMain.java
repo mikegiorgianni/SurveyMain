@@ -34,6 +34,27 @@ public class SurveyMain {
         System.exit(0);
     }
 
+    private void prevMenu() {
+        save(SURVEYS_FN, surveys);
+        displaySurveyMenu();
+    }
+
+    private createSurvey() {
+
+    }
+
+    private char displayQuestionMenu() {
+        System.out.println("\n" +
+            "1) Add a new T/F question\n" +
+            "2) Add a new multiple choice question\n" +
+            "3) Add a new short answer question\n" +
+            "4) Add a new essay question\n" +
+            "5) Add a new date question\n" +
+            "6) Add a new matching question\n" +
+            "7) Return to previous menu"););
+            return kb.nextLine().charAt(0)
+    }
+
     private char displaySurveyMenu() {
         System.out.print("\n" +
         "1) Create a new Survey\n" +
