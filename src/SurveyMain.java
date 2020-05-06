@@ -48,6 +48,13 @@ public class SurveyMain {
     }
 
     private void displaySurvey() {
+        if (!((boolean) load(SURVEYS_FN))) {
+            System.out.println("You must load a survey before displaying one");
+        }else {
+
+        }
+
+
     }
 
     private void loadSurvey() {
@@ -59,9 +66,11 @@ public class SurveyMain {
     }
 
     private void takeSurvey() {
+
     }
 
     private void modifySurvey() {
+
     }
 
     private void quit() {
