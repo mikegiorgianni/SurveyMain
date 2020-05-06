@@ -1,14 +1,14 @@
 import questionControllers.*;
-import questionTypes.QuestionType;
-import questionTypes.TrueFalse;
+import questionTypes.*;
 
+import javax.xml.validation.Validator;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-import static questionTypes.QuestionType.TRUE_FALSE;
+import static questionTypes.QuestionType.*;
 
 public class SurveyMain {
     public static final String SURVEYS_FN = "surveys";
@@ -106,24 +106,34 @@ public class SurveyMain {
     }
 
     private void multipleChoice() {
+        MultipleChoice mcQuestion = (MultipleChoice) controllers.get(MULTIPLE_CHOICE.ordinal()).inputQuestion();
+        survey.addQuestion(mcQuestion);
     }
 
     private void shortAnswer() {
+        ShortAnswer shortAnswer = (ShortAnswer) controllers.get(SHORT_ANSWER.ordinal()).inputQuestion();
+        survey.addQuestion(shortAnswer);
     }
 
     private void essay() {
+        Essay essay = (Essay) controllers.get(ESSAY.ordinal()).inputQuestion();
+        survey.addQuestion(essay);
     }
 
     private void validDate() {
+        ValidDate validDate = (ValidDate) controllers.get(VALID_DATE.ordinal()).inputQuestion();
+        survey.addQuestion(validDate);
     }
 
     private void matching() {
+        Matching matching = (Matching) controllers.get(MATCHING.ordinal()).inputQuestion();
+        survey.addQuestion(matching);
     }
 
     private void trueFalse() {
-            TrueFalse tfQuestion = (TrueFalse) controllers.get(TRUE_FALSE.ordinal()).inputQuestion();
-            survey.addQuestion(tfQuestion);
-        }
+        TrueFalse tfQuestion = (TrueFalse) controllers.get(TRUE_FALSE.ordinal()).inputQuestion();
+        survey.addQuestion(tfQuestion);
+    }
 
     private char displayQuestionMenu() {
         System.out.println("\n" +
