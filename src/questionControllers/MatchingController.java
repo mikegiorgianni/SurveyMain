@@ -1,10 +1,12 @@
 package questionControllers;
 
 import questionTypes.Matching;
+import responses.MatchingResp;
+import responses.QuestionResp;
 
 import java.util.*;
 
-public class MatchingController implements QuestionOps<Matching> {
+public class MatchingController extends QuestionOps<Matching> {
     private final Scanner kb = new Scanner(System.in);
     List<String> listA, listB;
     Map<Integer, String> matches;
@@ -48,17 +50,20 @@ public class MatchingController implements QuestionOps<Matching> {
     }
 
     @Override
-    public String askQuestion( Matching question ) {
+    public QuestionResp askQuestion( Matching question ) {
         System.out.println(question.getQuestion());
         for ( int i = 0; i < question.getNumInList(); i++ ) {
             System.out.println(question.getListA().get(i) + " : " +
                 question.getListB().get(i));
         }
+        matches = new TreeMap<>();
         for ( int i = 0; i < question.getNumInList(); i++ ) {
-            matches.put((i+1), promptAccept("Matching item in right list(A-Z) for left item "+(i+1))+": ");
+            matches.put((i+1),
+                promptAccept("Matching item in right list(A-Z) for left item " + (i+1)) + ": ");
         }
-        return null;
+        return new MatchingResp(question, matches);
     }
+
     @Override
     public String promptAccept( String prompt ) {
         System.out.print(prompt);

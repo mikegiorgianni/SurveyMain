@@ -5,6 +5,8 @@ import java.io.Serializable;
 public class TrueFalse extends Question implements Serializable {
     private boolean answer;
 
+    public TrueFalse(){}
+
     public TrueFalse( String question, boolean answer ) {
         super(question);
         this.answer = answer;

@@ -1,10 +1,12 @@
 package questionControllers;
 
 import questionTypes.TrueFalse;
+import responses.QuestionResp;
+import responses.SimpleResp;
 
 import java.util.Scanner;
 
-public class TrueFalseController implements QuestionOps<TrueFalse> {
+public class TrueFalseController extends QuestionOps<TrueFalse> {
     private final Scanner kb = new Scanner(System.in);
 
     @Override
@@ -23,9 +25,9 @@ public class TrueFalseController implements QuestionOps<TrueFalse> {
     }
 
     @Override
-    public String askQuestion( TrueFalse question ) {
+    public QuestionResp askQuestion( TrueFalse question ) {
         System.out.print(question.getQuestion());
-        return promptAccept(" (Enter T/F:) ").toUpperCase();
+        return new SimpleResp(question, promptAccept(" (Enter T/F:) ").toUpperCase());
     }
 
     @Override

@@ -1,10 +1,12 @@
 package questionControllers;
 
 import questionTypes.ShortAnswer;
+import responses.QuestionResp;
+import responses.SimpleResp;
 
 import java.util.Scanner;
 
-public class ShortAnswerController implements QuestionOps<ShortAnswer> {
+public class ShortAnswerController extends QuestionOps<ShortAnswer> {
     private final Scanner kb = new Scanner(System.in);
 
     @Override
@@ -24,8 +26,8 @@ public class ShortAnswerController implements QuestionOps<ShortAnswer> {
     }
 
     @Override
-    public String askQuestion( ShortAnswer question ) {
-        return promptAccept(question.getQuestion()+"\n");
+    public QuestionResp askQuestion( ShortAnswer question ) {
+        return new SimpleResp(question, promptAccept(question.getQuestion()+"\n"));
     }
 
     @Override

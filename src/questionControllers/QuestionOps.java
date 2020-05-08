@@ -1,8 +1,17 @@
 package questionControllers;
 
-public interface QuestionOps<T> {
-    T inputQuestion();
-    void changeQuestion(T question);
-    String askQuestion(T question);
-    String promptAccept(String prompt);
+
+import responses.QuestionResp;
+
+public class QuestionOps<T> {
+    public T inputQuestion() {
+        return null;
+    }
+    public void changeQuestion(T question) {}
+    public QuestionResp askQuestion( T question) {
+        return null;
+    }
+    public String promptAccept(String prompt) {
+        return null;
+    }
 }

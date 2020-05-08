@@ -1,11 +1,13 @@
 package questionControllers;
 
 import questionTypes.ValidDate;
+import responses.QuestionResp;
+import responses.SimpleResp;
 
 import java.time.LocalDate;
 import java.util.Scanner;
 
-public class ValidDateController implements QuestionOps<ValidDate> {
+public class ValidDateController extends QuestionOps<ValidDate> {
     private final Scanner kb = new Scanner(System.in);
 
     @Override
@@ -25,10 +27,10 @@ public class ValidDateController implements QuestionOps<ValidDate> {
     }
 
     @Override
-    public String askQuestion( ValidDate question ) {
+    public QuestionResp askQuestion( ValidDate question ) {
         System.out.println(question.getQuestion() + "\n");
         System.out.print("Enter valid date (mmddyyyy): ");
-        return getValidDate(null).toString();
+        return new SimpleResp(question, getValidDate(null).toString());
     }
 
     @Override

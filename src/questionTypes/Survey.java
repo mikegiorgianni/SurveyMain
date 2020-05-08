@@ -1,4 +1,6 @@
-import questionTypes.Question;
+package questionTypes;
+
+import responses.SurveyResponse;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,6 +37,6 @@ public class Survey implements Serializable {
         for ( Question question : questions ) {
             q.append(question.toString());
         }
-        return "Survey: " + name + " ->\n" + q.substring(0, q.length()-1);
+        return "questionTypes.Survey: " + name + " ->\n" + q.substring(0, q.length()-1);
     }
 }

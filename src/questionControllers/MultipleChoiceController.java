@@ -1,12 +1,14 @@
 package questionControllers;
 
 import questionTypes.MultipleChoice;
+import responses.QuestionResp;
+import responses.SimpleResp;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MultipleChoiceController implements QuestionOps<MultipleChoice> {
+public class MultipleChoiceController extends QuestionOps<MultipleChoice> {
     private final Scanner kb = new Scanner(System.in);
 
    @Override
@@ -36,12 +38,12 @@ public class MultipleChoiceController implements QuestionOps<MultipleChoice> {
     }
 
     @Override
-    public String askQuestion( MultipleChoice question ) {
+    public QuestionResp askQuestion( MultipleChoice question ) {
         System.out.println(question.getQuestion());
         for ( int i = 0; i < question.getNumOfChoices(); i++ ) {
             System.out.printf("%d. %s", i+1, question.getChoices().get(i));
         }
-        return promptAccept("Enter most correct response: ");
+        return new SimpleResp(question, promptAccept("Enter most correct response: "));
     }
 
     @Override

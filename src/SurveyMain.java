@@ -1,34 +1,23 @@
-import questionControllers.*;
-import questionTypes.QuestionType;
+import questionControllers.QuestionOps;
+import questionTypes.Survey;
 import questionTypes.TrueFalse;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-
-import static questionTypes.QuestionType.TRUE_FALSE;
 
 public class SurveyMain {
     public static final String SURVEYS_FN = "surveys";
     private Scanner kb;
     private SurveyList surveys;
     private Random rand = new Random(System.currentTimeMillis());
-    private List<QuestionOps> controllers;
     private Survey survey;
-
+    QuestionOps controller;
 
     private void go() {
         kb = new Scanner(System.in);
+        controller = new QuestionOps();
         surveys = new SurveyList();
-        controllers = new ArrayList<>();
-        controllers.add(new TrueFalseController());
-        controllers.add(new ShortAnswerController());
-        controllers.add(new EssayController());
-        controllers.add(new ValidDateController());
-        controllers.add(new MultipleChoiceController());
-        controllers.add(new MatchingController());
         surveys = ( SurveyList ) load(SURVEYS_FN);
         System.out.println(surveys);
         while(true) {
@@ -121,9 +110,8 @@ public class SurveyMain {
     }
 
     private void trueFalse() {
-            TrueFalse tfQuestion = (TrueFalse) controllers.get(TRUE_FALSE.ordinal()).inputQuestion();
-            survey.addQuestion(tfQuestion);
-        }
+        survey.addQuestion(( TrueFalse ) controller.inputQuestion());
+    }
 
     private char displayQuestionMenu() {
         System.out.println("\n" +
@@ -139,12 +127,12 @@ public class SurveyMain {
 
     private char displaySurveyMenu() {
         System.out.print("\n" +
-        "1) Create a new Survey\n" +
-        "2) Display an existing Survey\n" +
-        "3) Load an existing Survey\n" +
-        "4) Save the current Survey\n" +
-        "5) Take the current Survey\n" +
-        "6) Modifying the current Survey\n" +
+        "1) Create a new questionTypes.Survey\n" +
+        "2) Display an existing questionTypes.Survey\n" +
+        "3) Load an existing questionTypes.Survey\n" +
+        "4) Save the current questionTypes.Survey\n" +
+        "5) Take the current questionTypes.Survey\n" +
+        "6) Modifying the current questionTypes.Survey\n" +
         "7) Quit");
         return kb.nextLine().charAt(0);
     }

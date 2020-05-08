@@ -1,10 +1,12 @@
 package questionControllers;
 
 import questionTypes.Essay;
+import responses.QuestionResp;
+import responses.SimpleResp;
 
 import java.util.Scanner;
 
-public class EssayController implements QuestionOps<Essay> {
+public class EssayController extends QuestionOps<Essay> {
     private final Scanner kb = new Scanner(System.in);
 
     @Override
@@ -24,8 +26,8 @@ public class EssayController implements QuestionOps<Essay> {
     }
 
     @Override
-    public String askQuestion( Essay question ) {
-        return promptAccept(question.getQuestion()+"\n");
+    public QuestionResp askQuestion( Essay question ) {
+        return new SimpleResp(question, promptAccept(question.getQuestion()+"\n"));
     }
 
     @Override

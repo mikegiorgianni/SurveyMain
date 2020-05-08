@@ -7,6 +7,8 @@ public class Question implements Serializable {
 
     public Question( String question ) { this.question = question; }
 
+    public Question() {}
+
     public String getQuestion() { return question; }
 
     public void setQuestion( String question ) {
