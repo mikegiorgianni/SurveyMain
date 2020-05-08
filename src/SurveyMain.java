@@ -54,7 +54,7 @@ public class SurveyMain {
     }
 
     private void takeSurvey() {
-
+        new TakeSurvey().go();
     }
 
     private void modifySurvey() {
