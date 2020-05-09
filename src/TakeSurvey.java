@@ -15,7 +15,7 @@ public class TakeSurvey {
 
     public static final String SURVEYS_FN = "surveys";
 
-    private void go() {
+    void go() {
         kb = new Scanner(System.in);
         controller = new QuestionOps();
         List<String> surveys = ( List<String> ) load(SURVEYS_FN);

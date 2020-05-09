@@ -22,6 +22,10 @@ public class SurveyList implements Serializable {
         return surveys;
     }
 
+    public boolean contains(String surveyName) {
+        return surveys.contains(surveyName);
+    }
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();

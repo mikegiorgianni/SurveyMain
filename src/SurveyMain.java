@@ -1,5 +1,6 @@
-import questionControllers.*;
+import questionControllers.QuestionOps;
 import questionTypes.*;
+import questionTypes.Survey;
 
 import java.io.*;
 import java.util.Random;
@@ -36,7 +37,7 @@ public class SurveyMain {
     }
 
     private void displaySurvey() {
-        if (!((boolean) load(SURVEYS_FN))) {
+        if (survey == null) {
             System.out.println("You must load a survey before displaying one");
         }else {
 
@@ -46,7 +47,11 @@ public class SurveyMain {
     }
 
     private void loadSurvey() {
-
+        surveys.getSurveys().forEach(System.out :: println);
+        String surveyName = promptAccept("Enter survey name: ");
+        if(surveys.contains(surveyName)) {
+            survey = ( Survey ) load(surveyName);
+        } else survey = null;
     }
 
     private void saveSurvey() {
@@ -105,28 +110,23 @@ public class SurveyMain {
     }
 
     private void multipleChoice() {
-        MultipleChoice mcQuestion = (MultipleChoice) controllers.get(MULTIPLE_CHOICE.ordinal()).inputQuestion();
-        survey.addQuestion(mcQuestion);
+        survey.addQuestion(( MultipleChoice ) controller.inputQuestion());
     }
 
     private void shortAnswer() {
-        ShortAnswer shortAnswer = (ShortAnswer) controllers.get(SHORT_ANSWER.ordinal()).inputQuestion();
-        survey.addQuestion(shortAnswer);
+        survey.addQuestion(( ShortAnswer ) controller.inputQuestion());
     }
 
     private void essay() {
-        Essay essay = (Essay) controllers.get(ESSAY.ordinal()).inputQuestion();
-        survey.addQuestion(essay);
+        survey.addQuestion(( Essay ) controller.inputQuestion());
     }
 
     private void validDate() {
-        ValidDate validDate = (ValidDate) controllers.get(VALID_DATE.ordinal()).inputQuestion();
-        survey.addQuestion(validDate);
+        survey.addQuestion((ValidDate) controller.inputQuestion());
     }
 
     private void matching() {
-        Matching matching = (Matching) controllers.get(MATCHING.ordinal()).inputQuestion();
-        survey.addQuestion(matching);
+         survey.addQuestion(( Matching ) controller.inputQuestion());
     }
 
     private void trueFalse() {
