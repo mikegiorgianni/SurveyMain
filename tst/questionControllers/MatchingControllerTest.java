@@ -1,26 +1,56 @@
 package questionControllers;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import questionTypes.Matching;
+import responses.MatchingResp;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class SurveyQuestionTest {
     Scanner kb = new Scanner(System.in);
+    static QuestionOps controller;
 
-    @Test
-    void inputQuestion() {
-        MatchingController mc = new MatchingController();
-        mc.inputQuestion();
+    @BeforeAll
+    static void setup() {
+        controller = new QuestionOps();
     }
 
     @Test
-    void changeQuestion() {
+    void inputQuestionTest() {
+        Matching m = new Matching("Match the following:", 3,
+            List.of("Houston", "Fannin", "Travis"),
+            List.of("Alamo", "Goliad", "San Jacinto"),
+            ( Map<Integer, String> ) controller.inputQuestion());
+        assertEquals(Map.of(1, "C", 2, "B", 3, "A"),m.getMatches());
     }
 
     @Test
-    void askQuestion() {
+    void changeQuestionTest() {
+
+        Matching m = new Matching("Match the following:", 3,
+            List.of("Houston", "Fannin", "Travis"),
+            List.of("Alamo", "Goliad", "San Jacinto"),
+            Map.of(1, "C", 2, "B", 3, "A"));
+        controller.changeQuestion(m);
+        assertEquals(3, m.getNumInList());
     }
+
+    @Test
+    void askQuestionTest() {
+        MatchingResp matchingResp = ( MatchingResp ) controller.askQuestion(
+            new Matching("Match the following:", 3,
+            List.of("Houston", "Fannin", "Travis"),
+            List.of("Alamo", "Goliad", "San Jacinto"),
+            Map.of(1, "C", 2, "B", 3, "A")));
+        assertEquals(3, matchingResp.getResponse().size());
+    }
+
     public String promptAccept( String prompt ) {
         System.out.print(prompt);
         return kb.nextLine();
