@@ -1,25 +1,25 @@
 import questionControllers.QuestionOps;
 import questionTypes.*;
-import questionTypes.Survey;
 
 import java.io.*;
-import java.util.Random;
 import java.util.Scanner;
+
+import static questionTypes.QuestionType.*;
 
 public class SurveyMain {
     public static final String SURVEYS_FN = "surveys";
     private Scanner kb;
     private SurveyList surveys;
-    private Random rand = new Random(System.currentTimeMillis());
+    //private Random rand = new Random(System.currentTimeMillis());
     private Survey survey;
     QuestionOps controller;
 
     private void go() {
         kb = new Scanner(System.in);
         controller = new QuestionOps();
-        surveys = new SurveyList();
         surveys = ( SurveyList ) load(SURVEYS_FN);
-        System.out.println(surveys);
+        if ( surveys == null ) surveys = new SurveyList();
+        else { System.out.println("Surveys:");System.out.println(surveys); }
         while(true) {
             char opt = displaySurveyMenu();
             switch (opt) {
@@ -31,7 +31,7 @@ public class SurveyMain {
                 case '6': modifySurvey();break;
                 case '7': quit();break;
                 default:
-                System.out.println("Invalid response");
+                    System.out.println("Invalid response");
             }
         }
     }
@@ -39,11 +39,9 @@ public class SurveyMain {
     private void displaySurvey() {
         if (survey == null) {
             System.out.println("You must load a survey before displaying one");
-        }else {
-
+        } else {
+            System.out.println(survey.toString());
         }
-
-
     }
 
     private void loadSurvey() {
@@ -55,7 +53,8 @@ public class SurveyMain {
     }
 
     private void saveSurvey() {
-
+        save(survey.getName(), survey);
+        surveys.addSurvey(survey.getName());
     }
 
     private void takeSurvey() {
@@ -71,16 +70,12 @@ public class SurveyMain {
         System.exit(0);
     }
 
-    private void prevMenu() {
-        save(SURVEYS_FN, surveys);
-        displaySurveyMenu();
-    }
-
     private void createSurvey() {
         String surveyName = promptAccept("Enter survey name: ");
         survey = new Survey(surveyName);
-        while(true) {
-            char opt = displayQuestionMenu();
+        char opt = 0;
+        while(opt != '7') {
+            opt = displayQuestionMenu();
             switch (opt) {
                 case '1':
                     trueFalse();
@@ -101,7 +96,6 @@ public class SurveyMain {
                     matching();
                     break;
                 case '7':
-                    prevMenu();
                     break;
                 default:
                     System.out.println("Invalid response");
@@ -110,27 +104,27 @@ public class SurveyMain {
     }
 
     private void multipleChoice() {
-        survey.addQuestion(( MultipleChoice ) controller.inputQuestion());
+        survey.addQuestion(( MultipleChoice ) MULTIPLE_CHOICE.getController().inputQuestion());
     }
 
     private void shortAnswer() {
-        survey.addQuestion(( ShortAnswer ) controller.inputQuestion());
+        survey.addQuestion(( ShortAnswer ) SHORT_ANSWER.getController().inputQuestion());
     }
 
     private void essay() {
-        survey.addQuestion(( Essay ) controller.inputQuestion());
+        survey.addQuestion(( Essay ) ESSAY.getController().inputQuestion());
     }
 
     private void validDate() {
-        survey.addQuestion((ValidDate) controller.inputQuestion());
+        survey.addQuestion((ValidDate) VALID_DATE.getController().inputQuestion());
     }
 
     private void matching() {
-         survey.addQuestion(( Matching ) controller.inputQuestion());
+         survey.addQuestion(( Matching ) MATCHING.getController().inputQuestion());
     }
 
     private void trueFalse() {
-        survey.addQuestion(( TrueFalse ) controller.inputQuestion());
+        survey.addQuestion(( TrueFalse ) TRUE_FALSE.getController().inputQuestion());
     }
 
     private char displayQuestionMenu() {
@@ -146,7 +140,7 @@ public class SurveyMain {
     }
 
     private char displaySurveyMenu() {
-        System.out.print("\n" +
+        System.out.println("\n" +
         "1) Create a new Survey\n" +
         "2) Display an existing Survey\n" +
         "3) Load an existing Survey\n" +

@@ -3,16 +3,18 @@ package questionTypes;
 import questionControllers.*;
 
 public enum QuestionType {
-    TRUE_FALSE(TrueFalseController.class), SHORT_ANSWER(ShortAnswerController.class), ESSAY(EssayController.class),
-    VALID_DATE(ValidDateController.class), MULTIPLE_CHOICE(MultipleChoiceController.class), MATCHING(MatchingController.class);
 
-    private final Class<QuestionType> controller;
+    TRUE_FALSE(new TrueFalseController()), SHORT_ANSWER(new ShortAnswerController()),
+    ESSAY(new EssayController()), VALID_DATE(new ValidDateController()),
+    MULTIPLE_CHOICE(new MultipleChoiceController()), MATCHING(new MatchingController());
 
-    QuestionType( Class controller ) {
+    private final QuestionOps controller;
+
+    QuestionType( QuestionOps controller ) {
         this.controller = controller;
     }
 
-    public Class getController() {
+    public QuestionOps getController() {
         return controller;
     }
 }

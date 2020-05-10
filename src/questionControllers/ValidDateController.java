@@ -23,7 +23,7 @@ public class ValidDateController extends QuestionOps<ValidDate> {
         System.out.println("Press to retain current value.");
         String resp = promptAccept(question.getQuestion() + ": ");
         if (!resp.isEmpty()) question.setQuestion(resp);
-        question.setAnswer(getValidDate(question.getDate().toString()));
+        question.setAnswer(getValidDate(question.getAnswer().toString()));
     }
 
     @Override
@@ -39,19 +39,25 @@ public class ValidDateController extends QuestionOps<ValidDate> {
         return kb.nextLine();
     }
 
-    private LocalDate getValidDate(String date) {
+    public LocalDate getValidDate(String date) {
         LocalDate answer;
-        if (date != null) {
-            String resp = promptAccept(date + ": ");
-            if (!resp.isEmpty()) date = resp;
-        }
+        String resp;
+
         while (true) {
+            if (date != null) {
+                System.out.print(date + ": ");
+                resp = kb.nextLine();
+                if (!resp.isEmpty()) date = resp;
+            } else {
+                System.out.print("Enter date: ");
+                resp = kb.nextLine();
+            }
             try {
-                if ( date == null || date.length() != 8 )
+                if ( resp == null || resp.length() != 8 )
                     throw new IllegalArgumentException("Invalid response length");
-                int mm = Integer.parseInt(date.substring(0, 2));
-                int dd = Integer.parseInt(date.substring(2, 4));
-                int yyyy = Integer.parseInt(date.substring(4));
+                int mm = Integer.parseInt(resp.substring(0, 2));
+                int dd = Integer.parseInt(resp.substring(2, 4));
+                int yyyy = Integer.parseInt(resp.substring(4));
                 if ( mm < 1 || mm > 12 ) throw new IllegalArgumentException("Invalid month");
                 if ( dd < 1 || dd > 31 ) throw new IllegalArgumentException("Invalid day");
                 answer = LocalDate.of(yyyy, mm, dd);

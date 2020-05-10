@@ -1,5 +1,4 @@
-package questionTypes;
-
+import questionTypes.Question;
 import responses.SurveyResponse;
 
 import java.io.Serializable;

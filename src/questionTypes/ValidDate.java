@@ -12,7 +12,7 @@ public class ValidDate extends Question implements Serializable {
         this.answer = answer;
     }
 
-    public LocalDate getDate() {
+    public LocalDate getAnswer() {
         return answer;
     }
 
