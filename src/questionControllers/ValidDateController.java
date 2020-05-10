@@ -7,23 +7,30 @@ import responses.SimpleResp;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import static questionControllers.SurveyOrTest.TEST;
+
 public class ValidDateController extends QuestionOps<ValidDate> {
     private final Scanner kb = new Scanner(System.in);
 
     @Override
-    public ValidDate inputQuestion() {
+    public ValidDate inputQuestion(SurveyOrTest st) {
         String question = promptAccept("Enter question: ");
-        System.out.print("Enter valid date (mmddyyyy): ");
-        LocalDate answer = getValidDate(null);
-        return new ValidDate(question, answer);
+        if (st == TEST) {
+            System.out.print("Enter valid date (mmddyyyy): ");
+            LocalDate answer = getValidDate(null);
+            return new ValidDate(question, answer);
+        }
+        return new ValidDate(question);
     }
 
     @Override
-    public void changeQuestion( ValidDate question ) {
+    public void changeQuestion( SurveyOrTest st, ValidDate question ) {
         System.out.println("Press to retain current value.");
         String resp = promptAccept(question.getQuestion() + ": ");
         if (!resp.isEmpty()) question.setQuestion(resp);
-        question.setAnswer(getValidDate(question.getAnswer().toString()));
+        if (st == TEST) {
+            question.setAnswer(getValidDate(question.getAnswer().toString()));
+        }
     }
 
     @Override

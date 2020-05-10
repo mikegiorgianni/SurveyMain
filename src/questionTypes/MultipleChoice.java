@@ -8,19 +8,13 @@ public class MultipleChoice extends Question implements Serializable {
     private int correctAnswer;
     private List<String> choices;
 
-    public void setNumOfChoices( int numOfChoices ) {
+    public MultipleChoice( String question, int numOfChoices, List<String> choices ) {
+        super(question);
         this.numOfChoices = numOfChoices;
-    }
-
-    public void setCorrectAnswer( int correctAnswer ) {
-        this.correctAnswer = correctAnswer;
-    }
-
-    public void setChoices( List<String> choices ) {
         this.choices = choices;
     }
 
-    public MultipleChoice( String question, int numOfChoices, int correctAnswer, List<String> choices ) {
+    public MultipleChoice( String question, int numOfChoices, List<String> choices, int correctAnswer ) {
         super(question);
         this.numOfChoices = numOfChoices;
         this.correctAnswer = correctAnswer;
@@ -31,8 +25,8 @@ public class MultipleChoice extends Question implements Serializable {
         return numOfChoices;
     }
 
-    public int getCorrectAnswer() {
-        return correctAnswer;
+    public void setNumOfChoices( int numOfChoices ) {
+        this.numOfChoices = numOfChoices;
     }
 
     public List<String> getChoices() {
@@ -44,13 +38,25 @@ public class MultipleChoice extends Question implements Serializable {
         choices.add(answer);
     }
 
+    public void setChoices( List<String> choices ) {
+        this.choices = choices;
+    }
+
+    public int getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    public void setCorrectAnswer( int correctAnswer ) {
+        this.correctAnswer = correctAnswer;
+    }
+
     @Override
     public String toString() {
-        StringBuilder answer = new StringBuilder("questionTypes.MultipleChoice: ")
-            .append((correctAnswer + 1)).append("\t").append(getQuestion()).append("\n");
+        StringBuilder sb = new StringBuilder("questionTypes.MultipleChoice: ")
+            .append(getQuestion()).append("\n");
         for ( int i = 0; i < numOfChoices; i++ ) {
-            answer.append("\t").append(i + 1).append(". ").append(choices.get(i)).append("\n");
+            sb.append("\t").append(i + 1).append(". ").append(choices.get(i+1)).append("\n");
         }
-        return answer.toString();
+        return sb.toString();
     }
 }

@@ -5,13 +5,12 @@ import java.io.Serializable;
 public class TrueFalse extends Question implements Serializable {
     private boolean answer;
 
-    public TrueFalse(){}
-
     public TrueFalse( String question, boolean answer ) {
         super(question);
         this.answer = answer;
     }
 
+    public TrueFalse( String question ) { super(question); }
     public boolean isTrue() { return answer; }
 
     public void setAnswer( boolean answer ) {
@@ -20,6 +19,6 @@ public class TrueFalse extends Question implements Serializable {
 
     @Override
     public String toString() {
-        return "True/False: " + super.getQuestion() + " : " + answer + "\n";
+        return "True/False: " + super.getQuestion() + "\n";
     }
 }

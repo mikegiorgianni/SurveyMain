@@ -20,6 +20,14 @@ public class Matching extends Question implements Serializable {
         this.matches = matches;
     }
 
+    public Matching( String question, int numInList,
+                     List<String> listA, List<String> listB ) {
+        super(question);
+        this.numInList = numInList;
+        this.listA = listA;
+        this.listB = listB;
+    }
+
     public int getNumInList() {
         return numInList;
     }
@@ -52,19 +60,27 @@ public class Matching extends Question implements Serializable {
         this.matches = matches;
     }
 
+    public String formatMatches() {
+        StringBuilder string = new StringBuilder();
+        Integer[] keys = matches.keySet().toArray(new Integer[0]);
+        String[] vals = matches.values().toArray(new String[0]);
+        for ( int i = 0; i < numInList; i++ ) {
+            char no = ( char ) ('A' + i);
+            String stringC = i < matches.size() ? keys[i] + ":" + vals[i] : " ";
+            string.append(String.format("\t%-40s\n", stringC));
+        }
+        return string.toString();
+    }
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder(
             String.format("%-10s %-5d\t%s\n",
             "Matching", numInList, getQuestion()));
-        Integer[] keys = matches.keySet().toArray(new Integer[0]);
-        String[] vals = matches.values().toArray(new String[0]);
         for ( int i = 0; i < numInList; i++ ) {
             char no = ( char ) ('A' + i);
             String stringA = (i+1) + ". " + listA.get(i);
             String stringB = no    + ". " + listB.get(i);
-            String stringC = i < matches.size() ? keys[i] + ":" + vals[i] : " ";
-            string.append(String.format("\t%-40s %-40s %-40s\n", stringA, stringB, stringC));
+            string.append(String.format("\t%-40s %-40s\n", stringA, stringB));
         }
         return string.toString();
     }

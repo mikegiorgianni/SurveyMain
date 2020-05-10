@@ -12,6 +12,8 @@ public class ValidDate extends Question implements Serializable {
         this.answer = answer;
     }
 
+    public ValidDate ( String question ) { super(question); }
+
     public LocalDate getAnswer() {
         return answer;
     }
@@ -20,9 +22,11 @@ public class ValidDate extends Question implements Serializable {
         this.answer = answer;
     }
 
+    public String getDate() {
+        return answer.format(DateTimeFormatter.ofPattern("MM-dd-yyyy")) + "\n";
+    }
     @Override
     public String toString() {
-        return "questionTypes.ValidDate: " + super.getQuestion() + " : " +
-            answer.format(DateTimeFormatter.ofPattern("MM-dd-yyyy")) + "\n";
+        return "questionTypes.ValidDate: " + super.getQuestion() + "\n";
     }
 }

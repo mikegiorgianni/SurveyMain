@@ -1,6 +1,6 @@
 package responses;
 
-import questionTypes.Survey;
+import controllers.Survey;
 
 import java.io.Serializable;
 import java.util.List;

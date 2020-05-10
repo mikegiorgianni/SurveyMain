@@ -1,6 +1,7 @@
+package controllers;
+
 import questionControllers.QuestionOps;
 import questionTypes.Question;
-import questionTypes.Survey;
 import responses.QuestionResp;
 import responses.SurveyResponse;
 
@@ -21,7 +22,7 @@ public class TakeSurvey {
         List<String> surveys = ( List<String> ) load(SURVEYS_FN);
         String surveyName = promptAccept("Enter survey name: ");
         if (!surveys.contains(surveyName)) {
-            System.out.println("questionTypes.Survey not found.");
+            System.out.println("questionTypes.controllers.Survey not found.");
             System.exit(9);
         }
         Survey survey = ( Survey ) load(surveyName);

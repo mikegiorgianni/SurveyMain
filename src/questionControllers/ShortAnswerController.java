@@ -6,23 +6,30 @@ import responses.SimpleResp;
 
 import java.util.Scanner;
 
+import static questionControllers.SurveyOrTest.TEST;
+
 public class ShortAnswerController extends QuestionOps<ShortAnswer> {
     private final Scanner kb = new Scanner(System.in);
 
     @Override
-    public ShortAnswer inputQuestion() {
+    public ShortAnswer inputQuestion(SurveyOrTest st) {
         String question = promptAccept("Enter question: ");
-        String answer = promptAccept("Enter answer: ");
-        return new ShortAnswer(question, answer);
+        if (st == TEST) {
+            String answer = promptAccept("Enter answer: ");
+            return new ShortAnswer(question, answer);
+        }
+        return new ShortAnswer(question);
     }
 
     @Override
-    public void changeQuestion( ShortAnswer question ) {
+    public void changeQuestion( SurveyOrTest st, ShortAnswer question ) {
         System.out.println("Press to retain current value.");
         String resp = promptAccept(question.getQuestion() + ": ");
         if (!resp.isEmpty()) question.setQuestion(resp);
-        resp = promptAccept(question.getAnswer() + ": ");
-        if (!resp.isEmpty()) question.setAnswer(resp);
+        if (st == TEST) {
+            resp = promptAccept(question.getAnswer() + ": ");
+            if ( !resp.isEmpty() ) question.setAnswer(resp);
+        }
     }
 
     @Override

@@ -10,6 +10,8 @@ public class ShortAnswer extends Question implements Serializable {
         this.answer = answer;
     }
 
+    public ShortAnswer( String question ) { super(question); }
+
     public String getAnswer() { return answer; }
 
     public void setAnswer( String answer ) {
@@ -18,6 +20,6 @@ public class ShortAnswer extends Question implements Serializable {
 
     @Override
     public String toString() {
-        return "Short answer: " + super.getQuestion() + " : " + answer + "\n";
+        return "Short answer: " + super.getQuestion() + "\n";
     }
 }

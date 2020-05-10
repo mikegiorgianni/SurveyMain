@@ -1,3 +1,5 @@
+package controllers;
+
 import questionTypes.Question;
 import responses.SurveyResponse;
 
@@ -36,6 +38,6 @@ public class Survey implements Serializable {
         for ( Question question : questions ) {
             q.append(question.toString());
         }
-        return "questionTypes.Survey: " + name + " ->\n" + q.substring(0, q.length()-1);
+        return "questionTypes.controllers.Survey: " + name + " ->\n" + q.substring(0, q.length()-1);
     }
 }

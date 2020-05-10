@@ -1,4 +1,7 @@
+package controllers;
+
 import questionControllers.QuestionOps;
+import questionControllers.SurveyOrTest;
 import questionTypes.*;
 
 import java.io.*;
@@ -104,27 +107,27 @@ public class SurveyMain {
     }
 
     private void multipleChoice() {
-        survey.addQuestion(( MultipleChoice ) MULTIPLE_CHOICE.getController().inputQuestion());
+        survey.addQuestion(( MultipleChoice ) MULTIPLE_CHOICE.getController().inputQuestion(SurveyOrTest.SURVEY));
     }
 
     private void shortAnswer() {
-        survey.addQuestion(( ShortAnswer ) SHORT_ANSWER.getController().inputQuestion());
+        survey.addQuestion(( ShortAnswer ) SHORT_ANSWER.getController().inputQuestion(SurveyOrTest.SURVEY));
     }
 
     private void essay() {
-        survey.addQuestion(( Essay ) ESSAY.getController().inputQuestion());
+        survey.addQuestion(( Essay ) ESSAY.getController().inputQuestion(SurveyOrTest.SURVEY));
     }
 
     private void validDate() {
-        survey.addQuestion((ValidDate) VALID_DATE.getController().inputQuestion());
+        survey.addQuestion((ValidDate) VALID_DATE.getController().inputQuestion(SurveyOrTest.SURVEY));
     }
 
     private void matching() {
-         survey.addQuestion(( Matching ) MATCHING.getController().inputQuestion());
+         survey.addQuestion(( Matching ) MATCHING.getController().inputQuestion(SurveyOrTest.SURVEY));
     }
 
     private void trueFalse() {
-        survey.addQuestion(( TrueFalse ) TRUE_FALSE.getController().inputQuestion());
+        survey.addQuestion(( TrueFalse ) TRUE_FALSE.getController().inputQuestion(SurveyOrTest.SURVEY));
     }
 
     private char displayQuestionMenu() {
@@ -141,12 +144,12 @@ public class SurveyMain {
 
     private char displaySurveyMenu() {
         System.out.println("\n" +
-        "1) Create a new Survey\n" +
-        "2) Display an existing Survey\n" +
-        "3) Load an existing Survey\n" +
-        "4) Save the current Survey\n" +
-        "5) Take the current Survey\n" +
-        "6) Modifying the current Survey\n" +
+        "1) Create a new controllers.Survey\n" +
+        "2) Display an existing controllers.Survey\n" +
+        "3) Load an existing controllers.Survey\n" +
+        "4) Save the current controllers.Survey\n" +
+        "5) Take the current controllers.Survey\n" +
+        "6) Modifying the current controllers.Survey\n" +
         "7) Quit");
         return kb.nextLine().charAt(0);
     }
