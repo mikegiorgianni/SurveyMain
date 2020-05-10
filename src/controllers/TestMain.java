@@ -1,37 +1,37 @@
 package controllers;
 
 import questionControllers.QuestionOps;
+import questionControllers.SurveyOrTest;
 import questionTypes.*;
 
 import java.io.*;
 import java.util.Scanner;
 
-import static questionControllers.SurveyOrTest.SURVEY;
 import static questionTypes.QuestionType.*;
 
-public class SurveyMain {
-    public static final String SURVEYS_FN = "surveys";
+public class TestMain {
+    public static final String TESTS_FN = "tests";
     private Scanner kb;
-    private SurveyList surveys;
+    private TestList tests;
     //private Random rand = new Random(System.currentTimeMillis());
-    private Survey survey;
+    private Test test;
     QuestionOps controller;
 
     private void go() {
         kb = new Scanner(System.in);
         controller = new QuestionOps();
-        surveys = ( SurveyList ) load(SURVEYS_FN);
-        if ( surveys == null ) surveys = new SurveyList();
-        else { System.out.println("Surveys:");System.out.println(surveys); }
+        tests = ( TestList ) load(TESTS_FN);
+        if ( tests == null ) tests = new TestList();
+        else { System.out.println("Tests:");System.out.println(tests); }
         while(true) {
-            char opt = displaySurveyMenu();
+            char opt = displayTestMenu();
             switch (opt) {
-                case '1': createSurvey(); break;
-                case '2': displaySurvey(); break;
-                case '3': loadSurvey();break;
-                case '4': saveSurvey();break;
-                case '5': takeSurvey();break;
-                case '6': modifySurvey();break;
+                case '1': createTest(); break;
+                case '2': displayTest(); break;
+                case '3': loadTest();break;
+                case '4': saveTest();break;
+                case '5': takeTest();break;
+                case '6': modifyTest();break;
                 case '7': quit();break;
                 default:
                     System.out.println("Invalid response");
@@ -39,43 +39,43 @@ public class SurveyMain {
         }
     }
 
-    private void displaySurvey() {
-        if (survey == null) {
-            System.out.println("You must load a survey before displaying one");
+    private void displayTest() {
+        if (tests == null) {
+            System.out.println("You must load a test before displaying one");
         } else {
-            System.out.println(survey.toString());
+            System.out.println(test.toString());
         }
     }
 
-    private void loadSurvey() {
-        surveys.getSurveys().forEach(System.out :: println);
-        String surveyName = promptAccept("Enter survey name: ");
-        if(surveys.contains(surveyName)) {
-            survey = ( Survey ) load(surveyName);
-        } else survey = null;
+    private void loadTest() {
+        tests.getTests().forEach(System.out :: println);
+        String testName = promptAccept("Enter test name: ");
+        if(tests.contains(testName)) {
+            test = ( Test ) load(testName);
+        } else test = null;
     }
 
-    private void saveSurvey() {
-        save(survey.getName(), survey);
-        surveys.addSurvey(survey.getName());
+    private void saveTest() {
+        save(test.getName(), test);
+        tests.addTest(test.getName());
     }
 
-    private void takeSurvey() {
-        new TakeSurvey().go();
+    private void takeTest() {
+        //new TakeTest().go();
     }
 
-    private void modifySurvey() {
+    private void modifyTest() {
 
     }
 
     private void quit() {
-        save(SURVEYS_FN, surveys);
+        save(TESTS_FN, tests);
         System.exit(0);
     }
 
-    private void createSurvey() {
-        String surveyName = promptAccept("Enter survey name: ");
-        survey = new Survey(surveyName);
+    private void createTest() {
+        String testName = promptAccept("Enter test name: ");
+        test = new Test(testName);
         char opt = 0;
         while(opt != '7') {
             opt = displayQuestionMenu();
@@ -107,27 +107,33 @@ public class SurveyMain {
     }
 
     private void multipleChoice() {
-        survey.addQuestion(( MultipleChoice ) MULTIPLE_CHOICE.getController().inputQuestion(SURVEY));
+        test.addQuestion(( MultipleChoice )
+            MULTIPLE_CHOICE.getController().inputQuestion(SurveyOrTest.TEST));
     }
 
     private void shortAnswer() {
-        survey.addQuestion(( ShortAnswer ) SHORT_ANSWER.getController().inputQuestion(SURVEY));
+        test.addQuestion(( ShortAnswer )
+            SHORT_ANSWER.getController().inputQuestion(SurveyOrTest.TEST));
     }
 
     private void essay() {
-        survey.addQuestion(( Essay ) ESSAY.getController().inputQuestion(SURVEY));
+        test.addQuestion(( Essay )
+            ESSAY.getController().inputQuestion(SurveyOrTest.TEST));
     }
 
     private void validDate() {
-        survey.addQuestion((ValidDate) VALID_DATE.getController().inputQuestion(SURVEY));
+        test.addQuestion((ValidDate)
+            VALID_DATE.getController().inputQuestion(SurveyOrTest.TEST));
     }
 
     private void matching() {
-         survey.addQuestion(( Matching ) MATCHING.getController().inputQuestion(SURVEY));
+         test.addQuestion(( Matching )
+             MATCHING.getController().inputQuestion(SurveyOrTest.TEST));
     }
 
     private void trueFalse() {
-        survey.addQuestion(( TrueFalse ) TRUE_FALSE.getController().inputQuestion(SURVEY));
+        test.addQuestion(( TrueFalse )
+            TRUE_FALSE.getController().inputQuestion(SurveyOrTest.TEST));
     }
 
     private char displayQuestionMenu() {
@@ -142,14 +148,14 @@ public class SurveyMain {
         return kb.nextLine().charAt(0);
     }
 
-    private char displaySurveyMenu() {
+    private char displayTestMenu() {
         System.out.println("\n" +
-        "1) Create a new Survey\n" +
-        "2) Display an existing Survey\n" +
-        "3) Load an existing Survey\n" +
-        "4) Save the current Survey\n" +
-        "5) Take the current Survey\n" +
-        "6) Modifying the current Survey\n" +
+        "1) Create a new Test\n" +
+        "2) Display an existing Test\n" +
+        "3) Load an existing Test\n" +
+        "4) Save the current Test\n" +
+        "5) Take the current Test\n" +
+        "6) Modifying the current Test\n" +
         "7) Quit");
         return kb.nextLine().charAt(0);
     }
@@ -172,12 +178,12 @@ public class SurveyMain {
         }
     }
 
-    private void insertSurvey(String survey) { surveys.addSurvey(survey); }
+    private void insertTest(String test) { tests.addTest(test); }
 
-    private void save(String fileName, Object surveys) {
+    private void save(String fileName, Object tests) {
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));
-            oos.writeObject(surveys);
+            oos.writeObject(tests);
             oos.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -197,6 +203,6 @@ public class SurveyMain {
     }
 
     public static void main( String[] args ) {
-        new SurveyMain().go();
+        new TestMain().go();
     }
 }
