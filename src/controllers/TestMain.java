@@ -1,12 +1,14 @@
 package controllers;
 
 import questionControllers.QuestionOps;
-import questionControllers.SurveyOrTest;
 import questionTypes.*;
+import responses.TestResponse;
 
 import java.io.*;
+import java.util.List;
 import java.util.Scanner;
 
+import static questionControllers.SurveyOrTest.TEST;
 import static questionTypes.QuestionType.*;
 
 public class TestMain {
@@ -16,6 +18,8 @@ public class TestMain {
     //private Random rand = new Random(System.currentTimeMillis());
     private Test test;
     QuestionOps controller;
+    List<Question> questions;
+    List<TestResponse> responses;
 
     private void go() {
         kb = new Scanner(System.in);
@@ -39,8 +43,39 @@ public class TestMain {
         }
     }
 
+    private char displayTestMenu() {
+        System.out.println("\n" +
+            "1) Create a new Test\n" +
+            "2) Display an existing Test\n" +
+            "3) Load an existing Test\n" +
+            "4) Save the current Test\n" +
+            "5) Take the current Test\n" +
+            "6) Modifying the current Test\n" +
+            "7) Quit");
+        return kb.nextLine().charAt(0);
+    }
+
+    private void createTest() {
+        String testName = promptAccept("Enter test name: ");
+        test = new Test(testName);
+        char opt = 0;
+        while(opt != '7') {
+            opt = displayQuestionMenu();
+            switch (opt) {
+                case '1': trueFalse(); break;
+                case '2': multipleChoice(); break;
+                case '3': shortAnswer(); break;
+                case '4': essay(); break;
+                case '5': validDate(); break;
+                case '6': matching(); break;
+                case '7': break;
+                default: System.out.println("Invalid response");
+            }
+        }
+    }
+
     private void displayTest() {
-        if (tests == null) {
+        if (test == null) {
             System.out.println("You must load a test before displaying one");
         } else {
             System.out.println(test.toString());
@@ -65,7 +100,20 @@ public class TestMain {
     }
 
     private void modifyTest() {
-
+        if (test == null) {
+            System.out.println("You must load a test before displaying one");
+        } else {
+            questions = test.getQuestions();
+            responses = test.getResponses();
+            for ( int i = 0; i < questions.size(); i++ ) {
+                System.out.println("Question:");
+                controller.changeQuestion(TEST, questions.get(i));
+                System.out.println("Answer:");
+                controller.changeQuestion(TEST, responses.get(i));
+            }
+            test.setQuestions(questions);
+            test.setResponses(responses);
+        }
     }
 
     private void quit() {
@@ -73,91 +121,46 @@ public class TestMain {
         System.exit(0);
     }
 
-    private void createTest() {
-        String testName = promptAccept("Enter test name: ");
-        test = new Test(testName);
-        char opt = 0;
-        while(opt != '7') {
-            opt = displayQuestionMenu();
-            switch (opt) {
-                case '1':
-                    trueFalse();
-                    break;
-                case '2':
-                    multipleChoice();
-                    break;
-                case '3':
-                    shortAnswer();
-                    break;
-                case '4':
-                    essay();
-                    break;
-                case '5':
-                    validDate();
-                    break;
-                case '6':
-                    matching();
-                    break;
-                case '7':
-                    break;
-                default:
-                    System.out.println("Invalid response");
-            }
-        }
-    }
-
-    private void multipleChoice() {
-        test.addQuestion(( MultipleChoice )
-            MULTIPLE_CHOICE.getController().inputQuestion(SurveyOrTest.TEST));
-    }
-
-    private void shortAnswer() {
-        test.addQuestion(( ShortAnswer )
-            SHORT_ANSWER.getController().inputQuestion(SurveyOrTest.TEST));
-    }
-
-    private void essay() {
-        test.addQuestion(( Essay )
-            ESSAY.getController().inputQuestion(SurveyOrTest.TEST));
-    }
-
-    private void validDate() {
-        test.addQuestion((ValidDate)
-            VALID_DATE.getController().inputQuestion(SurveyOrTest.TEST));
-    }
-
-    private void matching() {
-         test.addQuestion(( Matching )
-             MATCHING.getController().inputQuestion(SurveyOrTest.TEST));
+    private char displayQuestionMenu() {
+        System.out.println("\n" +
+            "1) Add a new T/F question\n" +
+            "2) Add a new multiple choice question\n" +
+            "3) Add a new short answer question\n" +
+            "4) Add a new essay question\n" +
+            "5) Add a new date question\n" +
+            "6) Add a new matching question\n" +
+            "7) Return to previous menu");
+        return kb.nextLine().charAt(0);
     }
 
     private void trueFalse() {
         test.addQuestion(( TrueFalse )
-            TRUE_FALSE.getController().inputQuestion(SurveyOrTest.TEST));
+            TRUE_FALSE.getController().inputQuestion(TEST));
     }
 
-    private char displayQuestionMenu() {
-        System.out.println("\n" +
-        "1) Add a new T/F question\n" +
-        "2) Add a new multiple choice question\n" +
-        "3) Add a new short answer question\n" +
-        "4) Add a new essay question\n" +
-        "5) Add a new date question\n" +
-        "6) Add a new matching question\n" +
-        "7) Return to previous menu");
-        return kb.nextLine().charAt(0);
+    private void multipleChoice() {
+        test.addQuestion(( MultipleChoice )
+            MULTIPLE_CHOICE.getController().inputQuestion(TEST));
     }
 
-    private char displayTestMenu() {
-        System.out.println("\n" +
-        "1) Create a new Test\n" +
-        "2) Display an existing Test\n" +
-        "3) Load an existing Test\n" +
-        "4) Save the current Test\n" +
-        "5) Take the current Test\n" +
-        "6) Modifying the current Test\n" +
-        "7) Quit");
-        return kb.nextLine().charAt(0);
+    private void shortAnswer() {
+        test.addQuestion(( ShortAnswer )
+            SHORT_ANSWER.getController().inputQuestion(TEST));
+    }
+
+    private void essay() {
+        test.addQuestion(( Essay )
+            ESSAY.getController().inputQuestion(TEST));
+    }
+
+    private void validDate() {
+        test.addQuestion((ValidDate)
+            VALID_DATE.getController().inputQuestion(TEST));
+    }
+
+    private void matching() {
+         test.addQuestion(( Matching )
+             MATCHING.getController().inputQuestion(TEST));
     }
 
     private String promptAccept(String prompt) {
@@ -180,10 +183,10 @@ public class TestMain {
 
     private void insertTest(String test) { tests.addTest(test); }
 
-    private void save(String fileName, Object tests) {
+    private void save(String fileName, Object object) {
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));
-            oos.writeObject(tests);
+            oos.writeObject(object);
             oos.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());

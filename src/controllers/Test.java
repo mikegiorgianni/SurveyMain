@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Test implements Serializable {
     private final String name;
-    private final List<Question> questions;
-    private final List<TestResponse> responses;
+    private List<Question> questions;
+    private List<TestResponse> responses;
 
     public Test( String name ) {
         this.name = name;
@@ -26,6 +26,8 @@ public class Test implements Serializable {
         return questions;
     }
 
+    public void setQuestions(List<Question> questions) { this.questions = questions; }
+
     public boolean equals(Test test) {
         return this.name.compareTo(test.getName()) == 0;
     }
@@ -35,6 +37,8 @@ public class Test implements Serializable {
     public List<TestResponse> getResponses() {
         return responses;
     }
+
+    public void setResponses(List<TestResponse> responses) { this.responses = responses; }
 
     public void addResponse( TestResponse response) { responses.add(response); }
 
