@@ -27,6 +27,10 @@ public class TestMain {
         tests = ( TestList ) load(TESTS_FN);
         if ( tests == null ) tests = new TestList();
         else { System.out.println("Tests:");System.out.println(tests); }
+        if (tests.size() == 1) {
+            test = ( Test ) load(tests.getTests().get(0));
+            System.out.println(test.getName() + " loaded by default.");
+        }
         while(true) {
             char opt = displayTestMenu();
             switch (opt) {
@@ -79,10 +83,15 @@ public class TestMain {
             System.out.println("You must load a test before displaying one");
         } else {
             System.out.println(test.getName());
-            for ( Question question : test.getQuestions() ) {
+            List<Question> testQuestions = test.getQuestions();
+            for ( int i = 0; i < testQuestions.size(); i++ ) {
+                Question question = testQuestions.get(i);
                 fetchController(question);
                 String s = controller.displayQuestion(TEST, question);
-                System.out.println(s != null?s:"");
+                if ( s != null ) {
+                    System.out.println( (i +1)+ ")  " + s );
+                }
+
             }
         }
     }
@@ -120,11 +129,13 @@ public class TestMain {
         } else {
             questions = test.getQuestions();
             responses = test.getResponses();
-            for ( int i = 0; i < questions.size(); i++ ) {
+            displayTest();
+            int i = promptNumber("Question number to modify: ", 0) - 1;
+            //for ( int i = 0; i < questions.size(); i++ ) {
                 System.out.println("Question:");
                 fetchController(questions.get(i));
                 controller.changeQuestion(TEST, questions.get(i));
-            }
+            //}
             test.setQuestions(questions);
             test.setResponses(responses);
         }

@@ -27,6 +27,8 @@ public class TestList implements Serializable {
         return tests.contains(testName);
     }
 
+    public int size() { return tests.size(); }
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();

@@ -13,6 +13,8 @@ import static questionControllers.SurveyOrTest.TEST;
 
 public class ValidDateController extends QuestionOps<ValidDate> {
     private final Scanner kb = new Scanner(System.in);
+    DateTimeFormatter df = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+    DateTimeFormatter ds = DateTimeFormatter.ofPattern("MMddyyyy");
 
     @Override
     public ValidDate inputQuestion(SurveyOrTest st) {
@@ -31,7 +33,7 @@ public class ValidDateController extends QuestionOps<ValidDate> {
         String resp = promptAccept(question.getQuestion() + ": ");
         if (!resp.isEmpty()) question.setQuestion(resp);
         if (st == TEST) {
-            question.setAnswer(getValidDate(question.getAnswer().toString()));
+            question.setAnswer(getValidDate(question.getAnswer()));
         }
     }
 
@@ -46,7 +48,7 @@ public class ValidDateController extends QuestionOps<ValidDate> {
     public String displayQuestion(SurveyOrTest st, ValidDate question) {
         if (st == SURVEY) return null;
         return "Valid date: " + question.getQuestion() + " : " +
-            question.getAnswer().format(DateTimeFormatter.ofPattern("MM-dd-yyyy")) +"\n";
+            question.getAnswer().format(df) +"\n";
     }
 
     @Override
@@ -55,21 +57,17 @@ public class ValidDateController extends QuestionOps<ValidDate> {
         return kb.nextLine();
     }
 
-    public LocalDate getValidDate(String date) {
+    public LocalDate getValidDate(LocalDate date) {
         LocalDate answer;
         String resp;
 
         while (true) {
-            if (date != null) {
-                System.out.print(date + ": ");
-                resp = kb.nextLine();
-                if (!resp.isEmpty()) date = resp;
-            } else {
-                System.out.print("Enter date: ");
-                resp = kb.nextLine();
-            }
+            resp = date == null ?
+                promptAccept("Enter date (mmddyyyy: "):
+                promptAccept(date.format(df) + ": ") ;
             try {
-                if ( resp == null || resp.length() != 8 )
+                if (resp.isEmpty() && date != null) resp = date.format(ds);
+                if ( resp.length() != 8 )
                     throw new IllegalArgumentException("Invalid response length");
                 int mm = Integer.parseInt(resp.substring(0, 2));
                 int dd = Integer.parseInt(resp.substring(2, 4));
@@ -79,7 +77,7 @@ public class ValidDateController extends QuestionOps<ValidDate> {
                 answer = LocalDate.of(yyyy, mm, dd);
                 break;
             } catch (IllegalArgumentException e) {
-                System.out.println("Invalid date");
+                System.out.println("Invalid date - " + resp);
             }
         }
         return answer;
