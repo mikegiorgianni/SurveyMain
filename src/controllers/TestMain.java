@@ -78,8 +78,23 @@ public class TestMain {
         if (test == null) {
             System.out.println("You must load a test before displaying one");
         } else {
-            System.out.println(test.toString());
+            System.out.println(test.getName());
+            for ( Question question : test.getQuestions() ) {
+                fetchController(question);
+                String s = controller.displayQuestion(TEST, question);
+                System.out.println(s != null?s:"");
+            }
         }
+    }
+
+    private void fetchController( Question question ) {
+        controller =
+            (question instanceof Essay)?          ESSAY.getController() :
+            (question instanceof Matching)?       MATCHING.getController() :
+            (question instanceof MultipleChoice)? MULTIPLE_CHOICE.getController() :
+            (question instanceof ShortAnswer)?    SHORT_ANSWER.getController() :
+            (question instanceof TrueFalse)?      TRUE_FALSE.getController() :
+                                                  VALID_DATE.getController();
     }
 
     private void loadTest() {
@@ -107,9 +122,8 @@ public class TestMain {
             responses = test.getResponses();
             for ( int i = 0; i < questions.size(); i++ ) {
                 System.out.println("Question:");
+                fetchController(questions.get(i));
                 controller.changeQuestion(TEST, questions.get(i));
-                System.out.println("Answer:");
-                controller.changeQuestion(TEST, responses.get(i));
             }
             test.setQuestions(questions);
             test.setResponses(responses);
@@ -134,8 +148,8 @@ public class TestMain {
     }
 
     private void trueFalse() {
-        test.addQuestion(( TrueFalse )
-            TRUE_FALSE.getController().inputQuestion(TEST));
+        test.addQuestion(
+            ( TrueFalse ) TRUE_FALSE.getController().inputQuestion(TEST));
     }
 
     private void multipleChoice() {

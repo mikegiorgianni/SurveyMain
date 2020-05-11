@@ -5,8 +5,10 @@ import responses.QuestionResp;
 import responses.SimpleResp;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+import static questionControllers.SurveyOrTest.SURVEY;
 import static questionControllers.SurveyOrTest.TEST;
 
 public class ValidDateController extends QuestionOps<ValidDate> {
@@ -38,6 +40,13 @@ public class ValidDateController extends QuestionOps<ValidDate> {
         System.out.println(question.getQuestion() + "\n");
         System.out.print("Enter valid date (mmddyyyy): ");
         return new SimpleResp(question, getValidDate(null).toString());
+    }
+
+    @Override
+    public String displayQuestion(SurveyOrTest st, ValidDate question) {
+        if (st == SURVEY) return null;
+        return "Valid date: " + question.getQuestion() + " : " +
+            question.getAnswer().format(DateTimeFormatter.ofPattern("MM-dd-yyyy")) +"\n";
     }
 
     @Override

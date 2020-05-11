@@ -27,6 +27,6 @@ public class ValidDate extends Question implements Serializable {
     }
     @Override
     public String toString() {
-        return "questionTypes.ValidDate: " + super.getQuestion() + "\n";
+        return "Valid Date: " + super.getQuestion() + "\n";
     }
 }

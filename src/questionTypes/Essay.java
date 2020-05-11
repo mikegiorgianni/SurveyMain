@@ -8,6 +8,6 @@ public class Essay extends Question implements Serializable {
 
     @Override
     public String toString() {
-        return "questionTypes.Essay: " + super.getQuestion()  + "\n";
+        return "Essay: " + super.getQuestion()  + "\n";
     }
 }

@@ -52,10 +52,10 @@ public class MultipleChoice extends Question implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("questionTypes.MultipleChoice: ")
+        StringBuilder sb = new StringBuilder("Multiple Choice: ")
             .append(getQuestion()).append("\n");
         for ( int i = 0; i < numOfChoices; i++ ) {
-            sb.append("\t").append(i + 1).append(". ").append(choices.get(i+1)).append("\n");
+            sb.append("\t").append(i + 1).append(". ").append(choices.get(i)).append("\n");
         }
         return sb.toString();
     }

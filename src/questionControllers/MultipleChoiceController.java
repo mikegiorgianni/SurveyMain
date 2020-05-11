@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static questionControllers.SurveyOrTest.SURVEY;
 import static questionControllers.SurveyOrTest.TEST;
 
 public class MultipleChoiceController extends QuestionOps<MultipleChoice> {
@@ -53,6 +54,21 @@ public class MultipleChoiceController extends QuestionOps<MultipleChoice> {
         return new SimpleResp(question, promptAccept("Enter response: "));
     }
 
+    @Override
+    public String displayQuestion(SurveyOrTest st, MultipleChoice question) {
+        if (st == SURVEY) return null;
+        StringBuilder sb = new StringBuilder()
+            .append("Multiple choice: ")
+            .append(question.getQuestion()).append(" ")
+            .append("choices: ").append(question.getNumOfChoices()).append(" ")
+            .append("answer: ").append(question.getCorrectAnswer()).append("\n");
+        List<String> choices = question.getChoices();
+        for ( int i = 0; i < question.getNumOfChoices(); i++ ) {
+            sb.append("\t").append(i + 1).append(". ").append(choices.get(i)).append("\n");
+        }
+        return sb.toString();
+
+    }
     @Override
     public String promptAccept( String prompt ) {
         System.out.print(prompt);

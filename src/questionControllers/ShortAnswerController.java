@@ -6,6 +6,7 @@ import responses.SimpleResp;
 
 import java.util.Scanner;
 
+import static questionControllers.SurveyOrTest.SURVEY;
 import static questionControllers.SurveyOrTest.TEST;
 
 public class ShortAnswerController extends QuestionOps<ShortAnswer> {
@@ -35,6 +36,12 @@ public class ShortAnswerController extends QuestionOps<ShortAnswer> {
     @Override
     public QuestionResp askQuestion( ShortAnswer question ) {
         return new SimpleResp(question, promptAccept(question.getQuestion()+"\n"));
+    }
+
+    @Override
+    public String displayQuestion( SurveyOrTest st, ShortAnswer question) {
+        if (st == SURVEY) return null;
+        return "Short answer: " + question.getQuestion()+" : "+question.getAnswer() + "\n";
     }
 
     @Override

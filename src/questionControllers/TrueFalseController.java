@@ -6,6 +6,7 @@ import responses.SimpleResp;
 
 import java.util.Scanner;
 
+import static questionControllers.SurveyOrTest.SURVEY;
 import static questionControllers.SurveyOrTest.TEST;
 
 public class TrueFalseController extends QuestionOps<TrueFalse> {
@@ -37,6 +38,12 @@ public class TrueFalseController extends QuestionOps<TrueFalse> {
         return new SimpleResp(question, promptAccept(" (Enter T/F:) ").toUpperCase());
     }
 
+    @Override
+    public String displayQuestion(SurveyOrTest st, TrueFalse question) {
+        if (st == SURVEY) return null;
+        return "True/False: " + question.getQuestion() + " : " +
+            (question.isTrue() ? "True" : "False") + "\n";
+    }
     @Override
     public String promptAccept( String prompt ) {
         System.out.print(prompt);

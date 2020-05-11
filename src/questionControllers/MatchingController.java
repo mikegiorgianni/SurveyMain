@@ -6,6 +6,7 @@ import responses.QuestionResp;
 
 import java.util.*;
 
+import static questionControllers.SurveyOrTest.SURVEY;
 import static questionControllers.SurveyOrTest.TEST;
 
 public class MatchingController extends QuestionOps<Matching> {
@@ -21,19 +22,18 @@ public class MatchingController extends QuestionOps<Matching> {
         int numInList = promptNumber("Enter num of matches: ", 0);
         System.out.println("Enter left and right list items in random sequence.");
         for ( int i = 0; i < numInList; i++ ) {
-            listA.add(promptAccept("Enter item in left list: "+(i+1)));
-            listB.add(promptAccept("Enter item in right list: "+(char)(i+'0')));
+            listA.add(promptAccept("Enter item in left list "+(i+1) + ": "));
+            listB.add(promptAccept("Enter item in right list "+(char)(i+'A') + ": "));
         }
         if (st == TEST) {
             matches = new TreeMap<>();
             for ( int i = 0; i < numInList; i++ ) {
                 matches.put((i + 1),
-                    promptAccept("Matching item in right list(A-Z) for left item " + (i + 1)) + ": ");
+                    promptAccept("Matching item in right list(A-Z) for left item " + (i + 1) + ": "));
             }
-            return new Matching(question, numInList, listA, listB, matches);
+            return new Matching(question,  numInList, listA, listB, matches);
         }
         return new Matching(question, numInList, listA, listB);
-
     }
 
     @Override
@@ -73,6 +73,22 @@ public class MatchingController extends QuestionOps<Matching> {
         return new MatchingResp(question, matches);
     }
 
+    @Override
+    public String displayQuestion(SurveyOrTest st, Matching question) {
+        if (st == SURVEY) return null;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Matching: ").append(question.getQuestion()).append("\n");
+        for ( int i = 0; i < question.getNumInList(); i++ ) {
+            sb.append(String.format("%d %-40s %c %-40s\n",
+                (i+1), question.getListA().get(i),
+                (char) (i + 'A'), question.getListB().get(i)));
+        }
+        matches = question.getMatches();
+        matches.forEach((k,v) -> sb.append(k).append(":").append(v).append(", "));
+        sb.setLength(sb.length()-2);
+        sb.append("\n");
+        return sb.toString();
+    }
     @Override
     public String promptAccept( String prompt ) {
         System.out.print(prompt);

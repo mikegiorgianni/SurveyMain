@@ -11,6 +11,7 @@ public class QuestionOps<T> {
     public QuestionResp askQuestion( T question) {
         return null;
     }
+    public String displayQuestion(SurveyOrTest st, T question) { return null; }
     public String promptAccept(String prompt) {
         return null;
     }

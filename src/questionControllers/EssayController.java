@@ -28,6 +28,10 @@ public class EssayController extends QuestionOps<Essay> {
     }
 
     @Override
+    public String displayQuestion(SurveyOrTest st, Essay question) {
+        return "Essay: " + question.getQuestion() + "\n";
+    }
+    @Override
     public String promptAccept( String prompt ) {
         System.out.print(prompt);
         return kb.nextLine();

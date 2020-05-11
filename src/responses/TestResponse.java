@@ -6,11 +6,11 @@ import java.io.Serializable;
 import java.util.List;
 
 public class TestResponse implements Serializable {
-    private Test test;
-    private String takerName;
-    private List<QuestionResp> responses;
-    private List<QuestionResp> correctAnswers;
-    private float grade;
+    private final Test test;
+    private final String takerName;
+    private final List<QuestionResp> responses;
+    private final List<QuestionResp> correctAnswers;
+    private final float grade;
 
     public TestResponse( Test test, String takerName,
                          List<QuestionResp> responses,

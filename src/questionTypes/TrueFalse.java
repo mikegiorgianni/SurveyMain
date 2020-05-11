@@ -11,6 +11,7 @@ public class TrueFalse extends Question implements Serializable {
     }
 
     public TrueFalse( String question ) { super(question); }
+
     public boolean isTrue() { return answer; }
 
     public void setAnswer( boolean answer ) {

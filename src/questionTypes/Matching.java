@@ -74,8 +74,8 @@ public class Matching extends Question implements Serializable {
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder(
-            String.format("%-10s %-5d\t%s\n",
-            "Matching", numInList, getQuestion()));
+            String.format("%-10s %s\t%-5d\n",
+            "Matching", getQuestion(), numInList));
         for ( int i = 0; i < numInList; i++ ) {
             char no = ( char ) ('A' + i);
             String stringA = (i+1) + ". " + listA.get(i);

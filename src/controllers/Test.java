@@ -28,10 +28,6 @@ public class Test implements Serializable {
 
     public void setQuestions(List<Question> questions) { this.questions = questions; }
 
-    public boolean equals(Test test) {
-        return this.name.compareTo(test.getName()) == 0;
-    }
-
     public void addQuestion(Question question) { questions.add(question); }
 
     public List<TestResponse> getResponses() {
@@ -42,10 +38,20 @@ public class Test implements Serializable {
 
     public void addResponse( TestResponse response) { responses.add(response); }
 
+    public boolean equals(Test test) {
+        return this.name.compareTo(test.getName()) == 0;
+    }
+
     @Override
     public String toString() {
-        return "Test: " + name +
-            " questions: " + questions.size() +
-            " responses: " + responses.size();
+        StringBuilder sb = new StringBuilder();
+        sb.append("Test: ").append(name)
+            .append(" questions: ").append(questions.size())
+            .append(" responses: ").append(responses.size())
+            .append("\n");
+        for ( Question question : questions ) {
+            sb.append(question.getQuestion());
+        }
+        return sb.toString();
     }
 }
