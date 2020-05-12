@@ -9,12 +9,12 @@ public class TestResponse implements Serializable {
     private final Test test;
     private final String takerName;
     private final List<QuestionResp> responses;
-    private final List<QuestionResp> correctAnswers;
-    private final float grade;
+    private final List<TestAnswer> correctAnswers;
+    private float grade;
 
     public TestResponse( Test test, String takerName,
                          List<QuestionResp> responses,
-                         List<QuestionResp> correctAnswers,
+                         List<TestAnswer> correctAnswers,
                          float grade ) {
         this.test = test;
         this.takerName = takerName;
@@ -35,12 +35,16 @@ public class TestResponse implements Serializable {
         return responses;
     }
 
-    public List<QuestionResp> getCorrectAnswers() {
+    public List<TestAnswer> getCorrectAnswers() {
         return correctAnswers;
     }
 
     public float getGrade() {
         return grade;
+    }
+
+    public void setGrade( float grade ) {
+        this.grade = grade;
     }
 
     @Override

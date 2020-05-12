@@ -2,40 +2,46 @@ package controllers;
 
 import questionControllers.QuestionOps;
 import questionTypes.Question;
-import responses.QuestionResp;
-import responses.SurveyResponse;
+import responses.*;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class TakeSurvey {
+public class TakeTest {
     QuestionOps controller;
     Scanner kb;
 
-    public static final String SURVEYS_FN = "surveys";
+    public static final String TESTS_FN = "tests";
 
     void go() {
         kb = new Scanner(System.in);
         controller = new QuestionOps();
-        List<String> surveys = ( List<String> ) load(SURVEYS_FN);
-        String surveyName = promptAccept("Enter survey name: ");
-        if (!surveys.contains(surveyName)) {
-            System.out.println("Survey not found.");
+        List<String> tests = ( List<String> ) load(TESTS_FN);
+        String testName = promptAccept("Enter test name: ");
+        if (!tests.contains(testName)) {
+            System.out.println("Test not found.");
             System.exit(9);
         }
-        Survey survey = ( Survey ) load(surveyName);
-        String name = promptAccept("Enter responder name: ");
+        Test test = ( Test ) load(testName);
+        String name = promptAccept("Enter taker name: ");
         List<QuestionResp> responses = new ArrayList<>();
-        for ( Question question : survey.getQuestions()) {
-            responses.add(controller.askQuestion(question));
+        List<TestAnswer> correctAnswers = new ArrayList<>();
+        for ( Question question : test.getQuestions()) {
+            QuestionResp questionResp = controller.askQuestion(question);
+            responses.add(questionResp);
+            if (questionResp instanceof MatchingResp ) {
+                correctAnswers.add(new TestAnswer((( MatchingResp ) questionResp).getResponse()));
+            } else {
+                correctAnswers.add(new TestAnswer((( SimpleResp ) questionResp).getResponse()));
+            }
         }
-        SurveyResponse response = new SurveyResponse(survey, name, responses);
-        save(surveyName + "_" + name, response);
-        survey = ( Survey ) load(surveyName);
-        survey.addResponse(response);
-        save(surveyName, survey);
+        TestResponse response = new TestResponse(test, name, responses, correctAnswers, 0);
+        save(testName + "_" + name, response);
+        test = ( Test ) load(testName);
+        test.addResponse(response);
+        save(testName, test);
     }
 
 
@@ -67,6 +73,6 @@ public class TakeSurvey {
     }
 
     public static void main( String[] args ) {
-        new TakeSurvey().go();
+        new TakeTest().go();
     }
 }

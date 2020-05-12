@@ -26,23 +26,25 @@ public class TestMain {
         controller = new QuestionOps();
         tests = ( TestList ) load(TESTS_FN);
         if ( tests == null ) tests = new TestList();
-        else { System.out.println("Tests:");System.out.println(tests); }
-        if (tests.size() == 1) {
+        else if (tests.size() == 1) {
             test = ( Test ) load(tests.getTests().get(0));
             System.out.println(test.getName() + " loaded by default.");
+        } else {
+            System.out.println("Tests:");System.out.println(tests);
         }
         while(true) {
             char opt = displayTestMenu();
             switch (opt) {
                 case '1': createTest(); break;
-                case '2': displayTest(); break;
+                case '2': modifyTest(); break;
                 case '3': loadTest();break;
                 case '4': saveTest();break;
                 case '5': takeTest();break;
-                case '6': modifyTest();break;
-                case '7': quit();break;
-                default:
-                    System.out.println("Invalid response");
+                case '6': displayTest();break;
+                case '7': tabulateTest();break;
+                case '8': gradeTest();break;
+                case '9': quit();break;
+                default: System.out.println("Invalid response");
             }
         }
     }
@@ -50,12 +52,14 @@ public class TestMain {
     private char displayTestMenu() {
         System.out.println("\n" +
             "1) Create a new Test\n" +
-            "2) Display an existing Test\n" +
+            "2) Modify the current Test\n" +
             "3) Load an existing Test\n" +
             "4) Save the current Test\n" +
             "5) Take the current Test\n" +
-            "6) Modifying the current Test\n" +
-            "7) Quit");
+            "6) Display the current Test\n" +
+            "7) Tabulate the current Test\n" +
+            "8) Grade the current Test\n" +
+            "9) Quit");
         return kb.nextLine().charAt(0);
     }
 
@@ -78,6 +82,41 @@ public class TestMain {
         }
     }
 
+    private void modifyTest() {
+        if (test == null) {
+            System.out.println("You must load a test before displaying one");
+        } else {
+            questions = test.getQuestions();
+            responses = test.getResponses();
+            displayTest();
+            int i = promptNumber("Question number to modify: ", 0) - 1;
+            //for ( int i = 0; i < questions.size(); i++ ) {
+            System.out.println("Question:");
+            fetchController(questions.get(i));
+            controller.changeQuestion(TEST, questions.get(i));
+            //}
+            test.setQuestions(questions);
+            test.setResponses(responses);
+        }
+    }
+
+    private void loadTest() {
+        tests.getTests().forEach(System.out :: println);
+        String testName = promptAccept("Enter test name: ");
+        if(tests.contains(testName)) {
+            test = ( Test ) load(testName);
+        } else test = null;
+    }
+
+    private void saveTest() {
+        save(test.getName(), test);
+        tests.addTest(test.getName());
+    }
+
+    private void takeTest() {
+        new TakeTest().go();
+    }
+
     private void displayTest() {
         if (test == null) {
             System.out.println("You must load a test before displaying one");
@@ -96,50 +135,9 @@ public class TestMain {
         }
     }
 
-    private void fetchController( Question question ) {
-        controller =
-            (question instanceof Essay)?          ESSAY.getController() :
-            (question instanceof Matching)?       MATCHING.getController() :
-            (question instanceof MultipleChoice)? MULTIPLE_CHOICE.getController() :
-            (question instanceof ShortAnswer)?    SHORT_ANSWER.getController() :
-            (question instanceof TrueFalse)?      TRUE_FALSE.getController() :
-                                                  VALID_DATE.getController();
-    }
+    private void tabulateTest() { new TabulateTest().go(); }
 
-    private void loadTest() {
-        tests.getTests().forEach(System.out :: println);
-        String testName = promptAccept("Enter test name: ");
-        if(tests.contains(testName)) {
-            test = ( Test ) load(testName);
-        } else test = null;
-    }
-
-    private void saveTest() {
-        save(test.getName(), test);
-        tests.addTest(test.getName());
-    }
-
-    private void takeTest() {
-        //new TakeTest().go();
-    }
-
-    private void modifyTest() {
-        if (test == null) {
-            System.out.println("You must load a test before displaying one");
-        } else {
-            questions = test.getQuestions();
-            responses = test.getResponses();
-            displayTest();
-            int i = promptNumber("Question number to modify: ", 0) - 1;
-            //for ( int i = 0; i < questions.size(); i++ ) {
-                System.out.println("Question:");
-                fetchController(questions.get(i));
-                controller.changeQuestion(TEST, questions.get(i));
-            //}
-            test.setQuestions(questions);
-            test.setResponses(responses);
-        }
-    }
+    private void gradeTest() { new GradeTest().go();}
 
     private void quit() {
         save(TESTS_FN, tests);
@@ -228,6 +226,16 @@ public class TestMain {
             System.out.println(e.getMessage());
         }
         return object;
+    }
+
+    private void fetchController( Question question ) {
+        controller =
+            (question instanceof Essay)?          ESSAY.getController() :
+                (question instanceof Matching)?       MATCHING.getController() :
+                    (question instanceof MultipleChoice)? MULTIPLE_CHOICE.getController() :
+                        (question instanceof ShortAnswer)?    SHORT_ANSWER.getController() :
+                            (question instanceof TrueFalse)?      TRUE_FALSE.getController() :
+                                VALID_DATE.getController();
     }
 
     public static void main( String[] args ) {
