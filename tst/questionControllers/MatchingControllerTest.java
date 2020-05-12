@@ -1,6 +1,5 @@
 package questionControllers;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import questionTypes.Matching;
 import responses.MatchingResp;
@@ -10,23 +9,17 @@ import java.util.Map;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static questionTypes.QuestionType.MATCHING;
 
-
-class SurveyQuestionTest {
+public class MatchingControllerTest {
     Scanner kb = new Scanner(System.in);
-    static QuestionOps controller;
-
-    @BeforeAll
-    static void setup() {
-        controller = new QuestionOps();
-    }
 
     @Test
     void inputQuestionTest() {
         Matching m = new Matching("Match the following:", 3,
             List.of("Houston", "Fannin", "Travis"),
             List.of("Alamo", "Goliad", "San Jacinto"),
-            ( Map<Integer, String> ) controller.inputQuestion());
+            ( Map<Integer, String> ) MATCHING.getController().inputQuestion(SurveyOrTest.TEST));
         assertEquals(Map.of(1, "C", 2, "B", 3, "A"),m.getMatches());
     }
 
@@ -37,13 +30,13 @@ class SurveyQuestionTest {
             List.of("Houston", "Fannin", "Travis"),
             List.of("Alamo", "Goliad", "San Jacinto"),
             Map.of(1, "C", 2, "B", 3, "A"));
-        controller.changeQuestion(m);
+        MATCHING.getController().changeQuestion(SurveyOrTest.TEST, m);
         assertEquals(3, m.getNumInList());
     }
 
     @Test
     void askQuestionTest() {
-        MatchingResp matchingResp = ( MatchingResp ) controller.askQuestion(
+        MatchingResp matchingResp = ( MatchingResp ) MATCHING.getController().askQuestion(
             new Matching("Match the following:", 3,
             List.of("Houston", "Fannin", "Travis"),
             List.of("Alamo", "Goliad", "San Jacinto"),

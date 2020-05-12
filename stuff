@@ -3,20 +3,20 @@
 
     for ( String name : surveyNames ) insertSurvey(name);
         save("surveys", surveys);
-        surveys = ( SurveyList ) load("surveys");
+        surveys = ( controllers.SurveyList ) load("surveys");
         System.out.println("Surveys: " + surveys);
         System.out.println();
         for ( String name: surveyNames ) {    // for each survey, add 3 questions, save it, load it, print it
-            Survey survey = new Survey(name);
+            controllers.Survey survey = new controllers.Survey(name);
             int i = rand.nextInt(QUESTIONS_PER_SURVEY);     // which question to start with
             create3QuestionsInRandomOrder(survey, i);
             save(name, survey);                     // save the survey
-            Survey newWord = ( Survey ) load(name); // load the survey
+            controllers.Survey newWord = ( controllers.Survey ) load(name); // load the survey
             System.out.println(newWord);            // print the survey
         }
     }
 
-    private void create3QuestionsInRandomOrder( Survey survey, int i ) {
+    private void create3QuestionsInRandomOrder( controllers.Survey survey, int i ) {
         // loop 3 time, 1 question each iteration
         for ( int j = 0; j < 3; j++ ) {
             if ( i % QUESTIONS_PER_SURVEY == 0 )
@@ -40,3 +40,4 @@
             }
             i++;
         }
+            answer.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"))
