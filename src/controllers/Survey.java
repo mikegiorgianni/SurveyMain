@@ -38,6 +38,6 @@ public class Survey implements Serializable {
         for ( Question question : questions ) {
             q.append(question.toString());
         }
-        return "questionTypes.controllers.Survey: " + name + " ->\n" + q.substring(0, q.length()-1);
+        return "Survey: " + name + " ->\n" + q.substring(0, q.length()-1);
     }
 }
