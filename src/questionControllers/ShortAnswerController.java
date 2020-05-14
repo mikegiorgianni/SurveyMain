@@ -35,7 +35,7 @@ public class ShortAnswerController extends QuestionOps<ShortAnswer> {
 
     @Override
     public QuestionResp askQuestion( ShortAnswer question ) {
-        return new SimpleResp(question, promptAccept(question.getQuestion()+"\n"));
+        return new SimpleResp(question, promptAccept(question.getQuestion()+" : "));
     }
 
     @Override

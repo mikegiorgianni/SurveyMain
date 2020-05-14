@@ -18,11 +18,11 @@ public class TabulateTest {
     public void go() {
         kb = new Scanner(System.in);
         controller = new QuestionOps();
-        List<String> tests = ( List<String> ) load(TESTS_FN);
+        TestList tests = ( TestList ) load(TESTS_FN);
         String testName = promptAccept("Enter test name: ");
-        if (!tests.contains(testName)) {
+        if (testName.isEmpty() || !tests.contains(testName) ) {
             System.out.println("Test not found.");
-            System.exit(9);
+            return;
         }
         Test test = ( Test ) load(testName);
         List<TestResponse> responses = test.getResponses();

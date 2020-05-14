@@ -1,6 +1,7 @@
 package controllers;
 
 import questionTypes.Question;
+import responses.TestAnswer;
 import responses.TestResponse;
 
 import java.io.Serializable;
@@ -10,13 +11,13 @@ import java.util.List;
 public class Test implements Serializable {
     private final String name;
     private List<Question> questions;
-//    private List<TestAnswer> correctAnswers;
+    private List<TestAnswer> correctAnswers;
     private List<TestResponse> responses;
 
     public Test( String name ) {
         this.name = name;
         questions = new ArrayList<>();
-//        correctAnswers = new ArrayList<>();
+        correctAnswers = new ArrayList<>();
         responses = new ArrayList<>();
     }
 
@@ -32,17 +33,17 @@ public class Test implements Serializable {
 
     public void addQuestion(Question question) { questions.add(question); }
 
-//    public List<TestAnswer> getCorrectAnswers() {
-//        return correctAnswers;
-//    }
-//
-//    public void setCorrectAnswers( List<TestAnswer> correctAnswers ) {
-//        this.correctAnswers = correctAnswers;
-//    }
-//
-//    public void addCorrectAnswers( TestAnswer correctAnswer ) {
-//        this.correctAnswers.add(correctAnswer);
-//    }
+    public List<TestAnswer> getCorrectAnswers() {
+        return correctAnswers;
+    }
+
+    public void setCorrectAnswers( List<TestAnswer> correctAnswers ) {
+        this.correctAnswers = correctAnswers;
+    }
+
+    public void addCorrectAnswers( TestAnswer correctAnswer ) {
+        this.correctAnswers.add(correctAnswer);
+    }
 
     public List<TestResponse> getResponses() {
         return responses;

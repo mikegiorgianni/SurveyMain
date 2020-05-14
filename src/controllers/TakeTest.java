@@ -17,27 +17,20 @@ public class TakeTest {
 
     void go() {
         kb = new Scanner(System.in);
-        controller = new QuestionOps();
-        List<String> tests = ( List<String> ) load(TESTS_FN);
+        TestList tests = ( TestList ) load(TESTS_FN);
         String testName = promptAccept("Enter test name: ");
-        if (!tests.contains(testName)) {
+        if (testName.isEmpty() || !tests.contains(testName)) {
             System.out.println("Test not found.");
-            System.exit(9);
+            return;
         }
         Test test = ( Test ) load(testName);
         String name = promptAccept("Enter taker name: ");
         List<QuestionResp> responses = new ArrayList<>();
-        List<TestAnswer> correctAnswers = new ArrayList<>();
         for ( Question question : test.getQuestions()) {
-            QuestionResp questionResp = controller.askQuestion(question);
-            responses.add(questionResp);
-            if (questionResp instanceof MatchingResp ) {
-                correctAnswers.add(new TestAnswer((( MatchingResp ) questionResp).getResponse()));
-            } else {
-                correctAnswers.add(new TestAnswer((( SimpleResp ) questionResp).getResponse()));
-            }
+            controller = question.fetchController();
+            responses.add(controller.askQuestion(question));
         }
-        TestResponse response = new TestResponse(test, name, responses, correctAnswers, 0);
+        TestResponse response = new TestResponse(test, name, responses, test.getCorrectAnswers(), 0);
         save(testName + "_" + name, response);
         test = ( Test ) load(testName);
         test.addResponse(response);

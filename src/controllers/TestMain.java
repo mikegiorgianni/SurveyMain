@@ -91,8 +91,8 @@ public class TestMain {
             displayTest();
             int i = promptNumber("Question number to modify: ", 0) - 1;
             //for ( int i = 0; i < questions.size(); i++ ) {
-            System.out.println("Question:");
-            fetchController(questions.get(i));
+            System.out.println("Question: " +(i+1));
+            controller = questions.get(i).fetchController();
             controller.changeQuestion(TEST, questions.get(i));
             //}
             test.setQuestions(questions);
@@ -125,12 +125,11 @@ public class TestMain {
             List<Question> testQuestions = test.getQuestions();
             for ( int i = 0; i < testQuestions.size(); i++ ) {
                 Question question = testQuestions.get(i);
-                fetchController(question);
+                controller = question.fetchController();
                 String s = controller.displayQuestion(TEST, question);
                 if ( s != null ) {
                     System.out.println( (i +1)+ ")  " + s );
                 }
-
             }
         }
     }
@@ -226,16 +225,6 @@ public class TestMain {
             System.out.println(e.getMessage());
         }
         return object;
-    }
-
-    private void fetchController( Question question ) {
-        controller =
-            (question instanceof Essay)?          ESSAY.getController() :
-                (question instanceof Matching)?       MATCHING.getController() :
-                    (question instanceof MultipleChoice)? MULTIPLE_CHOICE.getController() :
-                        (question instanceof ShortAnswer)?    SHORT_ANSWER.getController() :
-                            (question instanceof TrueFalse)?      TRUE_FALSE.getController() :
-                                VALID_DATE.getController();
     }
 
     public static void main( String[] args ) {

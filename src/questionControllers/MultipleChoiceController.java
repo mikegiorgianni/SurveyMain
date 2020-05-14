@@ -37,7 +37,8 @@ public class MultipleChoiceController extends QuestionOps<MultipleChoice> {
         question.setNumOfChoices(promptNumber("Enter number of choices: ",
             question.getNumOfChoices()));
         for ( int i = 0; i < question.getNumOfChoices(); i++ ) {
-            question.getChoices().set(i, promptAccept("Enter a choice: "));
+            resp = promptAccept(question.getChoices().get(i) + " : ");
+            if (!resp.isEmpty()) question.getChoices().set(i, resp);
         }
         if (st == TEST) {
             question.setCorrectAnswer(promptNumber("Enter correct answer: ",
@@ -49,9 +50,9 @@ public class MultipleChoiceController extends QuestionOps<MultipleChoice> {
     public QuestionResp askQuestion( MultipleChoice question ) {
         System.out.println(question.getQuestion());
         for ( int i = 0; i < question.getNumOfChoices(); i++ ) {
-            System.out.printf("%d. %s", i+1, question.getChoices().get(i));
+            System.out.printf("%d. %s\t", i+1, question.getChoices().get(i));
         }
-        return new SimpleResp(question, promptAccept("Enter response: "));
+        return new SimpleResp(question, promptAccept(" : "));
     }
 
     @Override

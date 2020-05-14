@@ -42,17 +42,17 @@ public class MatchingController extends QuestionOps<Matching> {
         String resp;
         resp = promptAccept(question.getQuestion() + ": ");
         if ( !resp.isEmpty() ) question.setQuestion(resp);
-        question.setNumInList(promptNumber("Number of choices: " + question.getQuestion(),
+        question.setNumInList(promptNumber("Number of choices: " + question.getNumInList(),
             question.getNumInList()));
         for ( int i = 0; i < question.getNumInList(); i++ ) {
-            resp = promptAccept("Left: " + (i + 1) + question.getListA().get(i));
+            resp = promptAccept(String.format("Left: %d %s ", i + 1, question.getListA().get(i)));
             if (!resp.isEmpty()) question.getListA().set(i, resp);
-            resp = promptAccept("Right: " + (i + 1) + question.getListB().get(i));
+            resp = promptAccept(String.format("Right: %d %s ", i + 1, question.getListB().get(i)));
             if (!resp.isEmpty()) question.getListB().set(i, resp);
         }
         if (st == TEST) {
             for ( int i = 0; i < question.getNumInList(); i++ ) {
-                resp = promptAccept("Right (A-Z) for left item " + (i + 1) + ": ");
+                resp = promptAccept(String.format("Right (A-Z) for left item %c: ",(char)(i+'A')));
                 if ( !resp.isEmpty() ) question.getMatches().put((i + 1), resp);
             }
         }
@@ -62,13 +62,14 @@ public class MatchingController extends QuestionOps<Matching> {
     public QuestionResp askQuestion( Matching question ) {
         System.out.println(question.getQuestion());
         for ( int i = 0; i < question.getNumInList(); i++ ) {
-            System.out.println(question.getListA().get(i) + " : " +
-                question.getListB().get(i));
+            System.out.printf("%d %-40s : %c %-40s\n",
+            (i+1),         question.getListA().get(i),
+            (char)(i+'A'), question.getListB().get(i));
         }
         matches = new TreeMap<>();
         for ( int i = 0; i < question.getNumInList(); i++ ) {
             matches.put((i+1),
-                promptAccept("Matching item in right list(A-Z) for left item " + (i+1)) + ": ");
+                promptAccept(question.getListA().get(i) + " : "));
         }
         return new MatchingResp(question, matches);
     }

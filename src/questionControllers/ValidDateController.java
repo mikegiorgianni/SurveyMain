@@ -39,7 +39,7 @@ public class ValidDateController extends QuestionOps<ValidDate> {
 
     @Override
     public QuestionResp askQuestion( ValidDate question ) {
-        System.out.println(question.getQuestion() + "\n");
+        System.out.println(question.getQuestion());
         System.out.print("Enter valid date (mmddyyyy): ");
         return new SimpleResp(question, getValidDate(null).toString());
     }

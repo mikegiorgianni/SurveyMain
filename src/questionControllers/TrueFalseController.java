@@ -28,7 +28,10 @@ public class TrueFalseController extends QuestionOps<TrueFalse> {
         String resp = promptAccept(question.getQuestion() + ": ");
         if (!resp.isEmpty()) question.setQuestion(resp);
         if (st == TEST ) {
-            question.setAnswer(promptAccept(question.isTrue() + ": ").toUpperCase().charAt(0) == 'T');
+            String s = question.isTrue()?"true":"false";
+            String t = promptAccept(s + ": ");
+            if (t == null || t.isEmpty()) t = s;
+            question.setAnswer(t.toUpperCase().charAt(0) == 'T');
         }
     }
 

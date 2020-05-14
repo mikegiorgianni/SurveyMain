@@ -1,6 +1,5 @@
 package controllers;
 
-import questionControllers.QuestionOps;
 import responses.QuestionResp;
 import responses.SimpleResp;
 import responses.TestAnswer;
@@ -11,19 +10,17 @@ import java.util.List;
 import java.util.Scanner;
 
 public class GradeTest {
-    QuestionOps controller;
     Scanner kb;
 
     public static final String TESTS_FN = "tests";
 
     public void go() {
         kb = new Scanner(System.in);
-        controller = new QuestionOps();
-        List<String> tests = ( List<String> ) load(TESTS_FN);
+        TestList tests = ( TestList ) load(TESTS_FN);
         String testName = promptAccept("Enter test name: ");
-        if (!tests.contains(testName)) {
+        if (testName.isEmpty() || !tests.contains(testName)) {
             System.out.println("Test not found.");
-            System.exit(9);
+            return;
         }
         Test test = ( Test ) load(testName);
         List<TestResponse> responses = test.getResponses();
