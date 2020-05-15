@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Survey implements Serializable {
     private final String name;
-    private final List<Question> questions;
-    private final List<SurveyResponse> responses;
+    private List<Question> questions;
+    private List<SurveyResponse> responses;
 
     public Survey(String name) {
         this.name = name;
@@ -31,6 +31,11 @@ public class Survey implements Serializable {
     public void addResponse( SurveyResponse response) { responses.add(response); }
 
     public List<SurveyResponse> getResponses() { return responses; }
+
+    public void setQuestions(List<Question> questions) { this.questions = questions; }
+
+    public void setResponses(List<SurveyResponse> responses) { this.responses = responses; }
+
 
     @Override
     public String toString() {

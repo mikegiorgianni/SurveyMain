@@ -2,8 +2,10 @@ package controllers;
 
 import questionControllers.QuestionOps;
 import questionTypes.*;
+import responses.SurveyResponse;
 
 import java.io.*;
+import java.util.List;
 import java.util.Scanner;
 
 import static questionControllers.SurveyOrTest.SURVEY;
@@ -16,6 +18,8 @@ public class SurveyMain {
     //private Random rand = new Random(System.currentTimeMillis());
     private Survey survey;
     QuestionOps controller;
+    List<Question> questions;
+    List<SurveyResponse> responses;
 
     private void go() {
         kb = new Scanner(System.in);
@@ -65,7 +69,20 @@ public class SurveyMain {
     }
 
     private void modifySurvey() {
+        if (survey == null) {
+            System.out.println("You must load a survey before displaying one");
+        } else {
+            questions = survey.getQuestions();
+            responses = survey.getResponses();
+            displaySurvey();
+            int i = promptNumber("Question number to modify: ", 0) - 1;
+            System.out.println("Question: " + (i + 1));
+            controller = questions.get(i).fetchController();
+            controller.changeQuestion(SURVEY, questions.get(i));
 
+            survey.setQuestions(questions);
+            survey.setResponses(responses);
+        }
     }
 
     private void quit() {
